@@ -1,6 +1,6 @@
 
 <?php
-    $permalink = "https://rainvestimentos.com.br/";
+    $permalink = "https://rainvestimentos.com.br";
 ?>
 
 <!DOCTYPE html>

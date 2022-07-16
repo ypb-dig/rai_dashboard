@@ -1,6 +1,6 @@
 <?php 
     $host = "localhost";
-    $user = "rai_db";
+    $user = "realestate_rai_db";
     $pass = "6K2R4?yGiF]p";
     $dbname = "realestate_rai_db";
 

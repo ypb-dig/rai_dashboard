@@ -135,7 +135,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <button type="submit" class="btn btn-primary" type="button">Cadastrar Usuário</button>
+                                        <button type="submit" class="btn btn-primary" type="button">Alterar Usuário</button>
                                     </form>
                                 </div>
                             </div>

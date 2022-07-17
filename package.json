@@ -1,11 +1,11 @@
 {
-    "title": "SB Admin 2",
-    "name": "startbootstrap-sb-admin-2",
+    "title": "Dashboard RAI",
+    "name": "dashboard-rai",
     "version": "4.1.3",
     "scripts": {
         "start": "node_modules/.bin/gulp watch"
     },
-    "description": "An open source Bootstrap 4 admin theme.",
+    "description": "Dashboard RAI Investimentos",
     "keywords": [
         "css",
         "sass",
@@ -16,19 +16,19 @@
         "admin",
         "app"
     ],
-    "homepage": "https://startbootstrap.com/theme/sb-admin-2",
+    "homepage": "https://rainvestimentos.com.br",
     "bugs": {
-        "url": "https://github.com/StartBootstrap/startbootstrap-sb-admin-2/issues",
-        "email": "feedback@startbootstrap.com"
+        "url": "https://rainvestimentos.com.br",
+        "email": "desenvolvimento@ypb.com.br"
     },
     "license": "MIT",
-    "author": "Start Bootstrap",
+    "author": "Roberto Maioli",
     "contributors": [
-        "David Miller (https://davidmiller.io/)"
+        "Roberto Maioli (https://maiolidesign.com.br/)"
     ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/StartBootstrap/startbootstrap-sb-admin-2.git"
+        "url": "https://github.com/ypb-dig/rai_dashboard.git"
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "5.15.3",

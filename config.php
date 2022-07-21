@@ -1,4 +1,9 @@
 <?php 
+    // $host = "localhost";
+    // $user = "root";
+    // $pass = "";
+    // $dbname = "rai_db";
+
     $host = "localhost";
     $user = "realestate_rai_db";
     $pass = "*nLMwFb)gO6o";

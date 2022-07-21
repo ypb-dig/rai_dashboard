@@ -30,19 +30,19 @@
         <i class="fas fa-house-user"></i>
         <span>Produtos</span>
     </a>
-</li>
-
-<li class="nav-item">
-    <a class="nav-link py-1" href="<?php echo $permalink ?>/products.php">
-        <i class="fas fa-suitcase"></i>
-        <span>Demandas</span>
-    </a>
 </li> -->
 
 <li class="nav-item">
     <a class="nav-link py-1" href="<?php echo $permalink ?>/categories.php">
         <i class="fas fa-list"></i>
         <span>Categorias</span>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a class="nav-link py-1" href="<?php echo $permalink ?>/countries.php">
+        <i class="fas fa-globe-americas"></i>
+        <span>Países</span>
     </a>
 </li>
 

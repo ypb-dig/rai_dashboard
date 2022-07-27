@@ -3,8 +3,8 @@
     include 'protect.php';
     include 'inc/head.php';
 
-    $listings = "SELECT listings.id, listings.main_img, listings.name_listing, listings.name_listing, listings.price_listing, regions.name_region, countries.name_country FROM `listings` JOIN countries ON countries.id = listings.idcountry JOIN regions ON regions.id = listings.idregions;";
-    $result = $conn->query($listings);
+    $list_regions = "SELECT * FROM regions";
+    $result = $conn->query($list_regions);
 
     if(!$result){
         die("Invalid Query" . $conn->error);
@@ -26,12 +26,12 @@
                 <div class="container-fluid">
                     <div class="row align-items-center">
                         <div class="col-lg-10">
-                            <h1 class="h3 mb-2 text-gray-800">Produtos</h1>
-                            <p class="mb-4">Veja abaixo a lista de produtos cadastrados na plataforma:</p>
+                            <h1 class="h3 mb-2 text-gray-800">Regiões</h1>
+                            <p class="mb-4">Veja abaixo a lista das regiões cadastradas na plataforma:</p>
                         </div>
                         <div class="col-lg-2 d-flex justify-content-end">
-                            <a href="actions/products/create.php" class="mx-1 d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">
-                                <i class="fas fa-plus fa-sm text-white-50"></i> Criar Produto
+                            <a href="actions/regions/create.php" class="mx-1 d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">
+                                <i class="fas fa-plus fa-sm text-white-50"></i> Criar Região
                             </a>
                         </div>
 
@@ -52,7 +52,7 @@
                     </div>
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Lista de Produtos</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Lista de Regiões</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -60,22 +60,14 @@
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Imagem</th>
-                                            <th>Nome</th>
-                                            <th>Preço</th>
-                                            <th>Região</th>
-                                            <th>País</th>
+                                            <th>Países</th>
                                             <th>Ação</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Imagem</th>
-                                            <th>Nome</th>
-                                            <th>Preço</th>
-                                            <th>Região</th>
-                                            <th>País</th>
+                                            <th>Países</th>
                                             <th>Ação</th>
                                         </tr>
                                     </tfoot>
@@ -85,16 +77,12 @@
                                                 echo "
                                                     <tr>
                                                         <td>$row[id]</td>
-                                                        <td><img src='uploads/$row[main_img]' width='100px'></td>
-                                                        <td>$row[name_listing]</td>
-                                                        <td>R$ $row[price_listing]</td>
                                                         <td>$row[name_region]</td>
-                                                        <td>$row[name_country]</td>
                                                         <td>
-                                                            <!--<a class='btn btn-info' href='actions/products/edit.php?id=$row[id]'>
+                                                            <a class='btn btn-info' href='actions/regions/edit.php?id=$row[id]'>
                                                                 <i class='fas fa-edit'></i>
-                                                            </a>-->
-                                                            <a class='btn btn-danger' href='actions/products/delete.php?id=$row[id]'>
+                                                            </a>
+                                                            <a class='btn btn-danger' href='actions/regions/delete.php?id=$row[id]'>
                                                                 <i class='fas fa-trash'></i>
                                                             </a>
                                                         </td>

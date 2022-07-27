@@ -24,18 +24,24 @@
     Cadastro
 </div>
 
-<!-- Nav Item - Pages Collapse Menu -->
-<!-- <li class="nav-item">
+<li class="nav-item">
     <a class="nav-link py-1" href="<?php echo $permalink ?>/products.php">
         <i class="fas fa-house-user"></i>
         <span>Produtos</span>
     </a>
-</li> -->
+</li>
 
 <li class="nav-item">
     <a class="nav-link py-1" href="<?php echo $permalink ?>/categories.php">
         <i class="fas fa-list"></i>
         <span>Categorias</span>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a class="nav-link py-1" href="<?php echo $permalink ?>/regions.php">
+        <i class="fas fa-map-marker-alt"></i>
+        <span>Regiões</span>
     </a>
 </li>
 
@@ -50,13 +56,13 @@
 <hr class="sidebar-divider mt-2">
 
 <!-- Heading -->
-<div class="sidebar-heading">
+<div class="sidebar-heading mb-2">
     Configurações
 </div>
 
 <!-- Nav Item - Charts -->
 <li class="nav-item">
-    <a class="nav-link" href="<?php echo $permalink ?>/users.php">
+    <a class="nav-link py-1" href="<?php echo $permalink ?>/users.php">
         <i class="fas fa-fw fa-users"></i>
         <span>Usuários</span>
     </a>

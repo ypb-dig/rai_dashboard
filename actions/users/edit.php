@@ -54,8 +54,6 @@
             
             $result = $conn->query($sql);
 
-            echo $sql;
-
             if(!$result){
                 $errorMessage = "Erro ao cadastrar" . $conn->error;
                 break;

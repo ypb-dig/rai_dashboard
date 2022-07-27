@@ -1,7 +1,7 @@
 
 <?php
     $permalink = "https://rainvestimentos.com.br";
-    //$permalink = "http://localhost:3000/rai";
+    // $permalink = "http://localhost:3000/rai";
 ?>
 
 <!DOCTYPE html>
@@ -24,6 +24,7 @@
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
+    <link href="<?php echo $permalink ?>/css/jquery-search.css" rel="stylesheet">
     <link href="<?php echo $permalink ?>/css/sb-admin-2.min.css" rel="stylesheet">
 
 </head>

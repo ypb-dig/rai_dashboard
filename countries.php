@@ -60,14 +60,14 @@
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Nome</th>
+                                            <th>Países</th>
                                             <th>Ação</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Nome</th>
+                                            <th>Países</th>
                                             <th>Ação</th>
                                         </tr>
                                     </tfoot>

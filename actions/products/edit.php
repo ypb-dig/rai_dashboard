@@ -71,7 +71,7 @@
 
             $conn->begin_transaction();
 
-            $update = "UPDATE listings SET name_listing = '$name_listing', price_listing = '$price_listing', address_listing = '$address_listing', description_listing = '$description_listing', idcountry = '$idcountry', idregions = '$idregions' WHERE id = $id"; 
+            $update = "UPDATE listings SET name_listing = '$name_listing', price_listing = '$price_listing', address_listing = '$address_listing', description_listing = '$description_listing' WHERE id = $id"; 
 
             $result_update = $conn->query($update);
 

@@ -39,3 +39,14 @@
   height: 260px;
 }
 
+.row.products #dataTable_length, 
+.row.products #dataTable_demands_length,
+.row.products #dataTable_filter,
+.row.products #dataTable_demands_filter{
+  display:none !important;
+}
+
+.table-responsive{
+  overflow-x: hidden;
+}
+

@@ -32,6 +32,13 @@
 </li>
 
 <li class="nav-item">
+    <a class="nav-link py-1" href="<?php echo $permalink ?>/demands.php">
+        <i class="far fa-list-alt"></i>
+        <span>Demandas</span>
+    </a>
+</li>
+
+<li class="nav-item">
     <a class="nav-link py-1" href="<?php echo $permalink ?>/categories.php">
         <i class="fas fa-list"></i>
         <span>Categorias</span>

@@ -35,6 +35,8 @@
         $idregions = $_POST["idregions"];
         $idcategories = $_POST["idcategories"];
 
+        $price_real = str_replace(',00','', $price_listing);
+
         do{
             if( empty($name_listing) || empty($price_listing) || empty($price_listing) || empty($address_listing) || empty($description_listing) || empty($idcountry) || empty($idregions) || empty($idcategories) ){
                 $errorMessage = "Todos os campos são obrigatórios";
@@ -51,7 +53,7 @@
                     $path_mainimg = "../../uploads/" . $nome_mainimg;
                     move_uploaded_file($main_img["tmp_name"], $path_mainimg);
 
-                    $insert = "INSERT INTO listings (id, main_img, name_listing, price_listing, address_listing, description_listing, datetime, idcountry, idregions)" . "VALUES ($id, '$nome_mainimg', '$name_listing', '$price_listing', '$address_listing', '$description_listing', NOW(),'$idcountry', '$idregions')";
+                    $insert = "INSERT INTO listings (id, main_img, name_listing, price_listing, address_listing, description_listing, datetime, idcountry, idregions)" . "VALUES ($id, '$nome_mainimg', '$name_listing', '$price_real', '$address_listing', '$description_listing', NOW(),'$idcountry', '$idregions')";
 
                     $result_insert = $conn->query($insert);
                 }
@@ -175,7 +177,10 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">$</span>
                                                     </div>
-                                                    <input type="text" name="price_listing" class="form-control" value="<?php echo $price_listing; ?>">
+                                                    <input type="text" name="price_listing" class="form-control" value="<?php echo $price_listing; ?>" data-affixes-stay="true" data-thousands="." id="currency">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">,00</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-12 mt-2">
@@ -217,7 +222,7 @@
                                                 </div>
                                             </div>
                                             
-                                            <div class="col-md-12 mt-2">
+                                            <div class="col-md-12 mt-4">
                                                 <label class="small mb-1" for="exampleFormControlTextarea1">Descrição</label>
                                                 <textarea class="form-control" name="description_listing" rows="5" value="<?php echo $description_listing; ?>"></textarea>
                                             </div>
@@ -244,12 +249,21 @@
 
     <?php include '../../inc/logoutModal.php'; ?>
     <?php include '../../inc/scripts.php'; ?>
+    <script src="<?php echo $permalink ?>/js/jquery.maskMoney.min.js"></script>
 
     <script>
         $('.select').jselect_search({
             placeholder :'Procurar'
         });
     </script>
+
+    <script>
+        $(function() {
+            $('#currency').maskMoney({
+                decimal:","
+            });
+        })
+  </script>
 
 </body>
 

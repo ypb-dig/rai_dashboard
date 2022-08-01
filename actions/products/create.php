@@ -178,9 +178,6 @@
                                                         <span class="input-group-text">$</span>
                                                     </div>
                                                     <input type="text" name="price_listing" class="form-control" value="<?php echo $price_listing; ?>" data-affixes-stay="true" data-thousands="." id="currency">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">,00</span>
-                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-12 mt-2">

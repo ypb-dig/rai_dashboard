@@ -10,6 +10,7 @@
     $dbname = "realestate_rai_db";
 
     $conn = new mysqli($host, $user, $pass, $dbname,);
+    $conn->set_charset("utf8");
 
     if($conn->error){
         die("Falha ao conectar com banco:" . $conn->error);

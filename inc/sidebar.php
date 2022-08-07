@@ -52,12 +52,12 @@
     </a>
 </li>
 
-<li class="nav-item">
+<!-- <li class="nav-item">
     <a class="nav-link py-1" href="<?php echo $permalink ?>/countries.php">
         <i class="fas fa-globe-americas"></i>
         <span>Países</span>
     </a>
-</li>
+</li> -->
 
 <!-- Divider -->
 <hr class="sidebar-divider mt-2">

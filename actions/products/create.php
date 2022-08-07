@@ -6,42 +6,47 @@
     $id = "";
     $main_img = "";
     $name_listing = "";
+    $sign_listing = "";
     $price_listing = "";
     $address_listing = "";
     $description_listing = "";
-    $idcountry = "";
-    $idregions = "";
-    $idcategories ="";
+    $name_country = "";
 
     $errorMessage = "";
 
-    $select = "SELECT * FROM categories";
-    $result_select = $conn->query($select);
+    $listings = "SELECT * FROM regions WHERE name_country = 'Brasil'";
+    $result_regions = $conn->query($listings);
 
-    $select_regions = "SELECT * FROM regions";
-    $result_regions = $conn->query($select_regions);
+    $country_eua = "SELECT * FROM regions WHERE name_country = 'Estados Unidos'";
+    $result_regions_eua = $conn->query($country_eua);
 
-    $select_country = "SELECT * FROM countries";
-    $result_country = $conn->query($select_country);
+    $country_por = "SELECT * FROM regions WHERE name_country = 'Portugal'";
+    $result_regions_por = $conn->query($country_por);
+
+    $categories = "SELECT * FROM categories";
+    $result_categories = $conn->query($categories);
+
 
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $id = $_POST["id"];
         $main_img = $_FILES["main_img"];
         $name_listing = $_POST["name_listing"];
+        $sign_listing = $_POST["sign_listing"];
         $price_listing = $_POST["price_listing"];
         $address_listing = $_POST["address_listing"];
         $description_listing = $_POST["description_listing"];
-        $idcountry = $_POST["idcountry"];
-        $idregions = $_POST["idregions"];
+        $idregion = $_POST["idregion"];
         $idcategories = $_POST["idcategories"];
 
         $price_real = str_replace(',00','', $price_listing);
 
+
+
         do{
-            if( empty($name_listing) || empty($price_listing) || empty($price_listing) || empty($address_listing) || empty($description_listing) || empty($idcountry) || empty($idregions) || empty($idcategories) ){
-                $errorMessage = "Todos os campos são obrigatórios";
-                break;
-            }
+            // if( empty($name_listing) || empty($price_listing) || empty($price_listing) || empty($address_listing) || empty($description_listing) || empty($idregions) || empty($idcategories) ){
+            //     $errorMessage = "Todos os campos são obrigatórios";
+            //     break;
+            // }
 
             $conn->begin_transaction();
 
@@ -53,9 +58,13 @@
                     $path_mainimg = "../../uploads/" . $nome_mainimg;
                     move_uploaded_file($main_img["tmp_name"], $path_mainimg);
 
-                    $insert = "INSERT INTO listings (id, main_img, name_listing, price_listing, address_listing, description_listing, datetime, idcountry, idregions)" . "VALUES ($id, '$nome_mainimg', '$name_listing', '$price_real', '$address_listing', '$description_listing', NOW(),'$idcountry', '$idregions')";
+                    $insert = "INSERT INTO `listings` (`id`, `main_img`, `img1`, `img2`, `img3`, `name_listing`, `sign_listing`, `price_listing`, `address_listing`, `description_listing`, `datetime`, `idregion`) VALUES ($id, '$nome_mainimg', '', '', '', '$name_listing', '$sign_listing', '$price_real', '$address_listing', '$description_listing', NOW(), $idregion);";
 
                     $result_insert = $conn->query($insert);
+                }
+                if(!$result_insert){
+                    $errorMessage = "Erro ao cadastrar" . $conn->error;
+                    break;
                 }
             }
             
@@ -68,10 +77,7 @@
 
             $conn->commit();
 
-            if(!$result_insert){
-                $errorMessage = "Erro ao cadastrar" . $conn->error;
-                break;
-            }
+            
 
             header("Location: ../../products.php?msg=success");
             exit;
@@ -92,6 +98,7 @@
 
                 <form method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="id" value="<?php echo(rand(3,100000)); ?>">
+                    <input type="hidden" name="name_country" value="Brasil">
 
                     <div class="container-xl px-4 mt-4">
                         <div class="row">
@@ -112,8 +119,8 @@
                                         <div class="form-group form-check">
                                             
                                             <?php 
-                                                if($result_select->num_rows > 0){
-                                                    while($row = $result_select->fetch_assoc()){
+                                                if($result_categories->num_rows > 0){
+                                                    while($row = $result_categories->fetch_assoc()){
                                                         echo "
                                                         <div class='form-group form-check categories'>
                                                             <input type='checkbox' value='".$row['id']."' name='idcategories[]' class='form-check-input'>
@@ -175,7 +182,17 @@
                                                 <label class="small mb-1" for="inputFirstName">Valor</label>
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
-                                                        <span class="input-group-text">$</span>
+                                                        <select name="sign_listing" class="form-control">
+                                                            <option value="R$">
+                                                                <span class="input-group-text">R$</span>
+                                                            </option>
+                                                            <option value="$">
+                                                                <span class="input-group-text">$</span>
+                                                            </option>
+                                                            <option value="€">
+                                                                <span class="input-group-text">€</span>
+                                                            </option>
+                                                        </select>
                                                     </div>
                                                     <input type="text" name="price_listing" class="form-control" value="<?php echo $price_listing; ?>" data-affixes-stay="true" data-thousands="." id="currency">
                                                 </div>
@@ -184,10 +201,23 @@
                                                 <label class="small mb-1" for="exampleFormControlTextarea1">Endereço</label>
                                                 <input type="text" name="address_listing" class="form-control" value="<?php echo $address_listing; ?>">
                                             </div>
+                                            
                                             <div class="col-md-6 mt-2">
                                                 <div class='select'>
+                                                    <label class="small mb-1" for="inputFirstName">País</label>
+                                                    <select id='select' class='country form-control'>
+                                                        <option value="">Selecione um País</option>  
+                                                        <option value="Brasil">Brasil</option>
+                                                        <option value="Estados Unidos">Estados Unidos</option>
+                                                        <option value="Portugal">Portugal</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6 mt-2 region_bra">
+                                                <div class='select'>
                                                     <label class="small mb-1" for="inputFirstName">Região</label>
-                                                    <select name="idregions" id='select' class='form-control'>
+                                                    <select name="idregion" id='select' class='form-control'>
                                                         <option value="" selected>Selecione uma região</option>
                                                         <?php 
                                                         if($result_regions->num_rows > 0){
@@ -201,15 +231,34 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6 mt-2">
+
+                                            <div class="col-md-6 mt-2 region_eua">
                                                 <div class='select'>
-                                                    <label class="small mb-1" for="inputFirstName">País</label>
-                                                    <select name="idcountry" id='select' class='form-control'>
-                                                        <option value="" selected>Selecione um país</option>
+                                                    <label class="small mb-1" for="inputFirstName">Região</label>
+                                                    <select name="idregion" id='select' class='form-control'>
+                                                        <option value="" selected>Selecione uma região</option>
                                                         <?php 
-                                                        if($result_country->num_rows > 0){
-                                                            while($row = $result_country->fetch_assoc()){
-                                                                echo "<option value='".$row['id']."'>".$row['name_country']."</option>";
+                                                        if($result_regions_eua->num_rows > 0){
+                                                            while($row = $result_regions_eua->fetch_assoc()){
+                                                                echo "<option value='".$row['id']."'>".$row['name_region']."</option>";
+                                                                }
+                                                            }else{
+                                                                echo "0 Resultados";
+                                                            }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6 mt-2 region_por">
+                                                <div class='select'>
+                                                    <label class="small mb-1" for="inputFirstName">Região</label>
+                                                    <select name="idregion" id='select' class='form-control'>
+                                                        <option value="" selected>Selecione uma região</option>
+                                                        <?php 
+                                                        if($result_regions_por->num_rows > 0){
+                                                            while($row = $result_regions_por->fetch_assoc()){
+                                                                echo "<option value='".$row['id']."'>".$row['name_region']."</option>";
                                                                 }
                                                             }else{
                                                                 echo "0 Resultados";
@@ -260,6 +309,33 @@
                 decimal:","
             });
         })
+  </script>
+
+  <script>
+    $(document).ready(function(){
+        if($(".country").val() == ''){
+            $(".region_bra").css('display', 'none');
+            $(".region_eua").css('display', 'none');
+            $(".region_por").css('display', 'none');
+        }
+        $(".country").change(function() {
+            if($(this).val() == 'Brasil'){
+                $(".region_bra").css('display', 'block');
+                $(".region_eua").css('display', 'none');
+                $(".region_por").css('display', 'none');
+            }
+            if($(this).val() == 'Estados Unidos'){
+                $(".region_eua").css('display', 'block');
+                $(".region_bra").css('display', 'none');
+                $(".region_por").css('display', 'none');
+            }
+            if($(this).val() == 'Portugal'){
+                $(".region_eua").css('display', 'none');
+                $(".region_bra").css('display', 'none');
+                $(".region_por").css('display', 'block');
+            }
+        });
+    });
   </script>
 
 </body>

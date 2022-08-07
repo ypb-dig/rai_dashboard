@@ -4,10 +4,12 @@
     include '../../inc/head.php';
 
     $name_region = "";
+    $name_country = "";
     $errorMessage = "";
 
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $name_region = $_POST["name_region"];
+        $name_country = $_POST["name_country"];
 
         do{
             if( empty($name_region) ){
@@ -15,7 +17,7 @@
                 break;
             }
             
-            $insert = "INSERT INTO regions (name_region)" . "VALUES ('$name_region')";
+            $insert = "INSERT INTO regions (name_region, name_country)" . "VALUES ('$name_region','$name_country')";
             $result_insert = $conn->query($insert);
 
             if(!$result_insert){
@@ -59,9 +61,20 @@
                                     ?>
                                     <form method="POST">
                                         <div class="row gx-3 mb-3">
-                                            <div class="col-md-12">
+                                            <div class="col-md-6">
                                                 <label class="small mb-1" for="inputFirstName">Nome da Região</label>
                                                 <input class="form-control" name="name_region" type="text" value="<?php echo $name_region; ?>">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="small mb-1" for="inputFirstName">Nome do País</label>
+                                                <div class='select'>
+                                                    <select name="name_country" id='select' class='form-control'>
+                                                        <option value="">Selecione um País</option>  
+                                                        <option value="Brasil">Brasil</option>
+                                                        <option value="Estados Unidos">Estados Unidos</option>
+                                                        <option value="Portugal">Portugal</option>
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
                                         
@@ -87,6 +100,12 @@
 
     <?php include '../../inc/logoutModal.php'; ?>
     <?php include '../../inc/scripts.php'; ?>
+
+    <script>
+        $('.select').jselect_search({
+            placeholder :'Procurar'
+        });
+    </script>
 
 </body>
 

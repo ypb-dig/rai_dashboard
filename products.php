@@ -3,7 +3,11 @@
     include 'protect.php';
     include 'inc/head.php';
 
-    $listings = "SELECT listings.id, listings.main_img, listings.name_listing, listings.name_listing, listings.price_listing, regions.name_region, countries.name_country FROM `listings` JOIN countries ON countries.id = listings.idcountry JOIN regions ON regions.id = listings.idregions;";
+    $listings = "SELECT listings.id, listings.main_img, listings.name_listing, listings.name_listing, listings.sign_listing, listings.price_listing, regions.name_region, regions.name_country 
+    FROM `listings` 
+    JOIN regions 
+    ON regions.id = listings.idregion;";
+    // $listings = "SELECT listings.id, listings.main_img, listings.name_listing, listings.name_listing, listings.sign_listing, listings.price_listing FROM `listings` ";
     $result = $conn->query($listings);
 
     if(!$result){
@@ -104,11 +108,11 @@
                                                         <td>$row[id]</td>
                                                         <td><img src='uploads/$row[main_img]' width='100px'></td>
                                                         <td>$row[name_listing]</td>
-                                                        <td>R$ $price_real</td>
+                                                        <td>$row[sign_listing] $price_real</td>
                                                         <td>$row[name_region]</td>
                                                         <td>$row[name_country]</td>
                                                         <td>
-                                                            <!--<a class='btn btn-info' href='actions/products/edit.php?id=$row[id]'>
+                                                            <!---<a class='btn btn-info' href='actions/products/edit.php?id=$row[id]'>
                                                                 <i class='fas fa-edit'></i>
                                                             </a>-->
                                                             <a class='btn btn-danger' href='actions/products/delete.php?id=$row[id]'>

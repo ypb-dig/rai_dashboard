@@ -3,7 +3,7 @@
     include 'protect.php';
     include 'inc/head.php';
 
-    $list_regions = "SELECT * FROM regions";
+    $list_regions = "SELECT * FROM regions";              
     $result = $conn->query($list_regions);
 
     if(!$result){
@@ -59,15 +59,15 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>ID</th>
-                                            <th>Países</th>
+                                            <th>Estado</th>
+                                            <th>País</th>
                                             <th>Ação</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th>ID</th>
-                                            <th>Países</th>
+                                            <th>Estado</th>
+                                            <th>País</th>
                                             <th>Ação</th>
                                         </tr>
                                     </tfoot>
@@ -76,8 +76,8 @@
                                             while($row = $result->fetch_assoc()){
                                                 echo "
                                                     <tr>
-                                                        <td>$row[id]</td>
                                                         <td>$row[name_region]</td>
+                                                        <td>$row[name_country]</td>
                                                         <td>
                                                             <a class='btn btn-info' href='actions/regions/edit.php?id=$row[id]'>
                                                                 <i class='fas fa-edit'></i>

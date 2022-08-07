@@ -5,12 +5,14 @@
 
     $id = "";
     $name_listing = "";
+    $sign_listing = "";
     $price_listing = "";
     $address_listing = "";
     $description_listing = "";
-    $idcountry = "";
     $idregions = "";
-    $idcategories ="";
+    $namecountry = "";
+
+    $select_regions = "SELECT * FROM regions";
 
     if ($_SERVER['REQUEST_METHOD'] == 'GET'){
 
@@ -22,56 +24,54 @@
         $id = $_GET["id"];
         
 
-        $sql = "SELECT * FROM listings l 
-                JOIN cadastro_listing_categories cd on l.id = cd.idlistings 
-                JOIN categories c on c.id = cd.idcategories 
-                JOIN regions r ON r.id = l.idregions 
-                JOIN countries cr ON cr.id = l.idcountry WHERE idlistings = $id;";
+        $sql = "SELECT * FROM listings l
+                JOIN regions r
+                ON l.idregions = r.id WHERE l.id = $id";
 
         $result = $conn->query($sql);
         $row = $result->fetch_assoc();
 
-        if(!$row){
-            header("Location: ../../products.php");
-            exit;
-        }
+        // if(!$row){
+        //     header("Location: ../../products.php");
+        //     exit;
+        // }
 
         $id = $row["id"];
-        $main_img = $row["main_img"];
+        // $main_img = $row["main_img"];
         $name_listing = $row["name_listing"];
+        $sign_listing = $row["sign_listing"];
         $price_listing = $row["price_listing"];
         $address_listing = $row["address_listing"];
         $description_listing = $row["description_listing"];
-        $idcountry = $row["idcountry"];
         $idregions = $row["idregions"];
-        $idcategories = $row["idcategories"];
-        $categories = $row["name"];
-        $name_region = $row["name_region"];
-        $name_country = $row["name_country"];
-
-        $categories_array = array($categories);
-
+        $namecountry = $row["name_country"];
+        // $idcategories = $row["idcategories"];
+        // $categories = $row["name"];
     }else{
 
         $id = $_POST["id"];
-        // $main_img = $_FILES["main_img"];
         $name_listing = $_POST["name_listing"];
+        $sign_listing = $_POST["sign_listing"];
         $price_listing = $_POST["price_listing"];
         $address_listing = $_POST["address_listing"];
         $description_listing = $_POST["description_listing"];
-        $idcountry = $_POST["idcountry"];
         $idregions = $_POST["idregions"];
-        $idcategories = $_POST["idcategories"];
+        $namecountry = $_POST["name_country"];
+        // $idcategories = $_POST["idcategories"];
+
+        $price_real = str_replace(',00','', $price_listing);
 
         do{
-            if( empty($name_listing) || empty($price_listing) || empty($address_listing) || empty($description_listing) || empty($idcountry) || empty($idregions)){
+            if( empty($name_listing) || empty($price_listing) || empty($address_listing) || empty($description_listing)){
                 $errorMessage = "Todos os campos são obrigatórios";
                 break;
             }
 
             $conn->begin_transaction();
 
-            $update = "UPDATE listings SET name_listing = '$name_listing', price_listing = '$price_listing', address_listing = '$address_listing', description_listing = '$description_listing' WHERE id = $id"; 
+            $update = "UPDATE `listings` 
+                       SET `name_listing` = '$name_listing', `sign_listing` = '$sign_listing', `price_listing` = '$price_listing', `address_listing` = '$address_listing', `description_listing` = '$description_listing', `idregions` = $idregions, `name_country` = '$namecountry' WHERE `listings`.`id` = $id;
+                       WHERE l.id = $id";
 
             $result_update = $conn->query($update);
 
@@ -99,7 +99,8 @@
             $conn->commit();
 
             if(!$result_update){
-                $errorMessage = "Erro ao cadastrar" . $conn->error;
+                $erro = $conn->error;
+                $errorMessage = "Erro ao cadastrar".$erro;
                 break;
             }
             
@@ -168,6 +169,27 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <!-- <div class="card my-4 mb-xl-0">
+                                                    <div class="card-header">Categorias</div>
+                                                    <div class="card-body overflow-y">
+                                                        <div class="form-group form-check">
+                                                            
+                                                            <?php 
+                                                                if($result_select->num_rows > 0){
+                                                                    while($row = $result_select->fetch_assoc()){
+                                                                        echo "
+                                                                        <div class='form-group form-check categories'>
+                                                                            <input type='checkbox' value='".$row['id']."' name='idcategories[]' class='form-check-input'>
+                                                                            <label class='small mb-0'>".$row['name']."</label>
+                                                                        </div>";
+                                                                    }
+                                                                }else{
+                                                                    echo "0 Resultados";
+                                                                }
+                                                            ?>
+                                                        </div>
+                                                    </div>
+                                                </div> -->
                                             </div>
                                             <div class="col-xl-8">
                                                 <div class="card mb-4">
@@ -192,9 +214,22 @@
                                                                 <label class="small mb-1" for="inputFirstName">Valor</label>
                                                                 <div class="input-group">
                                                                     <div class="input-group-prepend">
-                                                                        <span class="input-group-text">$</span>
+                                                                    <select name="sign_listing" class="form-control">
+                                                                        <option value="<?php echo $sign_listing; ?>">
+                                                                            <span class="input-group-text"><?php echo $sign_listing; ?></span>
+                                                                        </option>
+                                                                        <option value="R$">
+                                                                            <span class="input-group-text">R$</span>
+                                                                        </option>
+                                                                        <option value="$">
+                                                                            <span class="input-group-text">$</span>
+                                                                        </option>
+                                                                        <option value="€">
+                                                                            <span class="input-group-text">€</span>
+                                                                        </option>
+                                                                    </select>
                                                                     </div>
-                                                                    <input type="text" name="price_listing" class="form-control" value="<?php echo $price_listing; ?>">
+                                                                    <input type="text" id="currency" name="price_listing" class="form-control" value="<?php echo $price_listing; ?>">
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-12 mt-2">
@@ -202,13 +237,36 @@
                                                                 <input type="text" name="address_listing" class="form-control" value="<?php echo $address_listing; ?>">
                                                             </div>
                                                             <div class="col-md-6 mt-2">
-                                                                <label class="small mb-1" for="inputFirstName">Região</label>
-                                                                <input class="form-control" name="idregions" type="text" value="<?php echo $name_region; ?>">
+                                                                <div class='select'>
+                                                                    <label class="small mb-1" for="inputFirstName">País</label>
+                                                                    <select name="name_country" id='select' class='form-control'>
+                                                                        <option value="<?php echo $namecountry; ?>"><?php echo $namecountry; ?></option>  
+                                                                        <option value="Brasil">Brasil</option>
+                                                                        <option value="Estados Unidos">Estados Unidos</option>
+                                                                        <option value="Portugal">Portugal</option>
+                                                                    </select>
+                                                                </div>
                                                             </div>
                                                             <div class="col-md-6 mt-2">
-                                                                <label class="small mb-1" for="inputFirstName">País</label>
-                                                                <input class="form-control" name="idcountry" type="text" value="<?php echo $name_country; ?>">
+                                                                <div class='select'>
+                                                                    <label class="small mb-1" for="inputFirstName">Região</label>
+                                                                    <select name="idregions" id='select' class='form-control'>
+                                                                    <?php 
+                                                                        if($regions = $conn->query($select_regions)){
+                                                                    ?>
+                                                                        <?php
+                                                                            while($row2 = $regions->fetch_assoc()){
+                                                                                echo "<option value='".$row2['id']."'>".$row2['name_region']."</option>";
+                                                                                }
+                                                                            }else{
+                                                                                echo "0 Resultados";
+                                                                            }
+                                                                        ?>
+                                                                    </select>
+                                                                </div>
                                                             </div>
+                                                            
+                                                            <!-- 
                                                             <div class="col-md-12 mt-2">
                                                                 <label class="small mb-1" for="exampleFormControlTextarea1">Categorias</label>
                                                             </div>
@@ -218,15 +276,10 @@
                                                                     <input type="checkbox" value="<?php echo $idcategories ?>" name="idcategories[]" class="form-check-input" checked>
                                                                     <label class="small mb-1"><?php echo $categories ?></label>
                                                                 </div>
-                                                            </div>
+                                                            </div> -->
 
-                                                            <div class="col-md-2 mt-2">
-                                                                <div class="form-group form-check">
-                                                                    <input type="checkbox" class="form-check-input" value="2" name="idcategories[]">
-                                                                    <label class="small mb-1">Educacional</label>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-12 mt-2">
+                                                            
+                                                            <div class="col-md-12 mt-4">
                                                                 <label class="small mb-1" for="exampleFormControlTextarea1">Descrição</label>
                                                                 <textarea class="form-control" name="description_listing" rows="5" value="<?php echo $description_listing; ?>"><?php echo $description_listing; ?></textarea>
                                                             </div>
@@ -257,6 +310,21 @@
 
     <?php include '../../inc/logoutModal.php'; ?>
     <?php include '../../inc/scripts.php'; ?>
+    <script src="<?php echo $permalink ?>/js/jquery.maskMoney.min.js"></script>
+
+    <script>
+        $('.select').jselect_search({
+            placeholder :'Procurar'
+        });
+    </script>
+
+    <script>
+        $(function() {
+            $('#currency').maskMoney({
+                decimal:","
+            });
+        })
+    </script>
 
     <!-- <script>
         $("#edit-mainimg").click(function() {

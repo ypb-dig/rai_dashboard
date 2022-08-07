@@ -9,8 +9,8 @@
     $contact_company = "";
     $phone_company = "";
     $features_company = "";
-    $idcountry = "";
     $idregions = "";
+    $name_country = "";
     $idcategories ="";
 
     $errorMessage = "";
@@ -18,8 +18,17 @@
     $select = "SELECT * FROM categories";
     $result_select = $conn->query($select);
 
-    $select_regions = "SELECT * FROM regions";
-    $result_regions = $conn->query($select_regions);
+    $listings = "SELECT * FROM regions WHERE name_country = 'Brasil'";
+    $result_regions = $conn->query($listings);
+
+    $country_eua = "SELECT * FROM regions WHERE name_country = 'Estados Unidos'";
+    $result_regions_eua = $conn->query($country_eua);
+
+    $country_por = "SELECT * FROM regions WHERE name_country = 'Portugal'";
+    $result_regions_por = $conn->query($country_por);
+
+    $categories = "SELECT * FROM categories";
+    $result_categories = $conn->query($categories);
 
     $select_country = "SELECT * FROM countries";
     $result_country = $conn->query($select_country);
@@ -32,19 +41,19 @@
         $contact_company = $_POST["contact_company"];
         $phone_company = $_POST["phone_company"];
         $features_company = $_POST["features_company"];
-        $idcountry = $_POST["idcountry"];
         $idregions = $_POST["idregions"];
         $idcategories = $_POST["idcategories"];
 
         do{
-            if( empty($name_company) || empty($source_company) || empty($contact_company) || empty($phone_company) || empty($features_company) || empty($idcountry) || empty($idregions)){
+            if( empty($name_company) || empty($source_company) || empty($contact_company) || empty($phone_company) || empty($features_company)){
                 $errorMessage = "Todos os campos são obrigatórios";
                 break;
             }
 
             $conn->begin_transaction();
             
-            $insert = "INSERT INTO demands (id, name_company, source_company, contact_company, phone_company, features_company, idcountry, idregions)" . "VALUES ($id, '$name_company', '$source_company', '$contact_company', '$phone_company', '$features_company','$idcountry', '$idregions')";
+            $insert = "INSERT INTO demands (id, name_company, source_company, contact_company, phone_company, features_company, idregions)" . "VALUES ($id, '$name_company', '$source_company', '$contact_company', '$phone_company', '$features_company', $idregions)";
+
             $result_insert = $conn->query($insert);
 
             foreach($idcategories as $category)
@@ -54,14 +63,12 @@
                 $result_insert = $conn->query($insert2);
             }
 
-            $conn->commit();
-
             if(!$result_insert){
                 $errorMessage = "Erro ao cadastrar" . $conn->error;
                 break;
             }
 
-            $name = "";
+            $conn->commit();
 
             header("Location: ../../demands.php?msg=success");
             exit;
@@ -139,6 +146,17 @@
                                             </div>
                                             <div class="col-md-6 mb-3">
                                                 <div class='select'>
+                                                    <label class="small mb-1" for="inputFirstName">País</label>
+                                                    <select id='select' class='country form-control'>
+                                                        <option value="">Selecione um País</option>  
+                                                        <option value="Brasil">Brasil</option>
+                                                        <option value="Estados Unidos">Estados Unidos</option>
+                                                        <option value="Portugal">Portugal</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 region_bra">
+                                                <div class='select'>
                                                     <label class="small mb-1" for="inputFirstName">Região</label>
                                                     <select name="idregions" id='select' class='form-control'>
                                                         <option value="" selected>Selecione uma região</option>
@@ -154,15 +172,32 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6 mb-3">
+                                            <div class="col-md-6 region_eua">
                                                 <div class='select'>
-                                                    <label class="small mb-1" for="inputFirstName">País</label>
-                                                    <select name="idcountry" id='select' class='form-control'>
-                                                        <option value="" selected>Selecione um país</option>
+                                                    <label class="small mb-1" for="inputFirstName">Região</label>
+                                                    <select name="idregions" id='select' class='form-control'>
+                                                        <option value="" selected>Selecione uma região</option>
                                                         <?php 
-                                                        if($result_country->num_rows > 0){
-                                                            while($row = $result_country->fetch_assoc()){
-                                                                echo "<option value='".$row['id']."'>".$row['name_country']."</option>";
+                                                        if($result_regions_eua->num_rows > 0){
+                                                            while($row = $result_regions_eua->fetch_assoc()){
+                                                                echo "<option value='".$row['id']."'>".$row['name_region']."</option>";
+                                                                }
+                                                            }else{
+                                                                echo "0 Resultados";
+                                                            }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 region_por">
+                                                <div class='select'>
+                                                    <label class="small mb-1" for="inputFirstName">Região</label>
+                                                    <select name="idregions" id='select' class='form-control'>
+                                                        <option value="" selected>Selecione uma região</option>
+                                                        <?php 
+                                                        if($result_regions_por->num_rows > 0){
+                                                            while($row = $result_regions_por->fetch_assoc()){
+                                                                echo "<option value='".$row['id']."'>".$row['name_region']."</option>";
                                                                 }
                                                             }else{
                                                                 echo "0 Resultados";
@@ -203,6 +238,33 @@
     <script>
         $('.select').jselect_search({
             placeholder :'Procurar'
+        });
+    </script>
+
+    <script>
+        $(document).ready(function(){
+            if($(".country").val() == ''){
+                $(".region_bra").css('display', 'none');
+                $(".region_eua").css('display', 'none');
+                $(".region_por").css('display', 'none');
+            }
+            $(".country").change(function() {
+                if($(this).val() == 'Brasil'){
+                    $(".region_bra").css('display', 'block');
+                    $(".region_eua").css('display', 'none');
+                    $(".region_por").css('display', 'none');
+                }
+                if($(this).val() == 'Estados Unidos'){
+                    $(".region_eua").css('display', 'block');
+                    $(".region_bra").css('display', 'none');
+                    $(".region_por").css('display', 'none');
+                }
+                if($(this).val() == 'Portugal'){
+                    $(".region_eua").css('display', 'none');
+                    $(".region_bra").css('display', 'none');
+                    $(".region_por").css('display', 'block');
+                }
+            });
         });
     </script>
 

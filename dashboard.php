@@ -3,11 +3,23 @@
     include 'protect.php';
     include 'inc/head.php';
 
-    $listings = "SELECT listings.id, listings.main_img, listings.name_listing, listings.name_listing, listings.price_listing, regions.name_region, countries.name_country FROM `listings` JOIN countries ON countries.id = listings.idcountry JOIN regions ON regions.id = listings.idregions;";
+    $listings = "SELECT * FROM listings l
+                 JOIN regions r 
+                 ON l.idregion = r.id";
     $result_products = $conn->query($listings);
 
     $demands = "SELECT * FROM demands";
     $result_demands = $conn->query($demands);
+
+    $listings = "SELECT * FROM regions WHERE name_country = 'Brasil'";
+    $result_regions = $conn->query($listings);
+
+    $country_eua = "SELECT * FROM regions WHERE name_country = 'Estados Unidos'";
+    $result_regions_eua = $conn->query($country_eua);
+
+    $country_por = "SELECT * FROM regions WHERE name_country = 'Portugal'";
+    $result_regions_por = $conn->query($country_por);
+    
 ?>
 
 <body id="page-top">
@@ -78,69 +90,154 @@
                         </div>
                     </div>   
 
-                    <div class="row products">
+                    <div class="row products justify-content-center">
+                        <div class="col-md-8 offsset-md-2 text-center my-3">
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                    <form action="dashboard.php" method="POST">
+                                        <input type="hidden" id="textInput" value="">
+                                        <div class="row gx-3 mb-3 py-4 shadow">
+                                            <div class="col-12 py-2">
+                                                <h5>Filtro de pesquisa de produtos:</h5>
+                                            </div>
+                                            <div class="col-md-4 text-left">
+                                                <label class="small mb-1" for="inputFirstName">Nome do País</label>
+                                                <div class='select'>
+                                                    <select name="name_country" id='select' class='form-control country'>
+                                                        <option value="">Selecione um País</option>  
+                                                        <option value="Brasil">Brasil</option>
+                                                        <option value="Estados Unidos">Estados Unidos</option>
+                                                        <option value="Portugal">Portugal</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mb-2 region_bra text-left">
+                                                <div class='select'>
+                                                    <label class="small mb-1" for="inputFirstName">Região</label>
+                                                    <select name="idregion" id='select' class='form-control'>
+                                                        <option value="" selected>Selecione uma região</option>
+                                                        <?php 
+                                                        if($result_regions->num_rows > 0){
+                                                            while($row = $result_regions->fetch_assoc()){
+                                                                echo "<option value='".$row['id']."'>".$row['name_region']."</option>";
+                                                                }
+                                                            }else{
+                                                                echo "0 Resultados";
+                                                            }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4 region_eua text-left">
+                                                <div class='select'>
+                                                    <label class="small mb-1" for="inputFirstName">Região</label>
+                                                    <select name="idregion" id='select' class='form-control'>
+                                                        <option value="" selected>Selecione uma região</option>
+                                                        <?php 
+                                                        if($result_regions_eua->num_rows > 0){
+                                                            while($row = $result_regions_eua->fetch_assoc()){
+                                                                echo "<option value='".$row['id']."'>".$row['name_region']."</option>";
+                                                                }
+                                                            }else{
+                                                                echo "0 Resultados";
+                                                            }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4 region_por text-left">
+                                                <div class='select'>
+                                                    <label class="small mb-1" for="inputFirstName">Região</label>
+                                                    <select name="idregion" id='select' class='form-control'>
+                                                        <option value="" selected>Selecione uma região</option>
+                                                        <?php 
+                                                        if($result_regions_por->num_rows > 0){
+                                                            while($row = $result_regions_por->fetch_assoc()){
+                                                                echo "<option value='".$row['id']."'>".$row['name_region']."</option>";
+                                                                }
+                                                            }else{
+                                                                echo "0 Resultados";
+                                                            }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 text-left">
+                                            <label class="small mb-1" for="inputFirstName">Valor</label><br>
+                                            <output id="amount" name="amount" for="rangeInput">5</output> Milhões<br>
+                                            <input type="range" name="rangeInput" oninput="amount.value=rangeInput.value" onchange="updateTextInput(this.value);" class="w-100" data-a-sign="" data-a-sep="." data-a-dec="," value="5" step="5" min="5" max="50">
+                                            
+                                            </div>
+                                            <div class="col-md-12 mt-4">
+                                                <button type="submit" class="btn btn-primary w-100" type="button">Busca Avançada</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab"></div>
+                            </div>
+                        </div>
                         <div class="col-xl-8 col-lg-7">
                             <div class="card shadow mb-4">
-                                <div class="tab-content" id="myTabContent">
-                                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab"></div>
-                                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab"></div>
-                                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                        <h6 class="m-0 font-weight-bold text-success">Lista de Produtos</h6>
-                                        <div class="dropdown no-arrow">
-                                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                            </a>
-                                        </div>
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-success">Lista de Produtos</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
                                     </div>
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                                <thead>
-                                                    <tr>
-                                                        <th>ID</th>
-                                                        <th>Imagem</th>
-                                                        <th>Nome</th>
-                                                        <th>Preço</th>
-                                                        <th>Região</th>
-                                                        <th>País</th>
-                                                    </tr>
-                                                </thead>
-                                                <tfoot>
-                                                    <tr>
-                                                        <th>ID</th>
-                                                        <th>Imagem</th>
-                                                        <th>Nome</th>
-                                                        <th>Preço</th>
-                                                        <th>Região</th>
-                                                        <th>País</th>
-                                                    </tr>
-                                                </tfoot>
-                                                <tbody>
-                                                    <?php 
-                                                        while($row = $result_products->fetch_assoc()){   
-                                                            
-                                                            $price_real = $row['price_listing'];
-                                                            
-                                                            echo "
-                                                                <tr>
-                                                                    <td>$row[id]</td>
-                                                                    <td><img src='uploads/$row[main_img]' width='100px'></td>
-                                                                    <td>$row[name_listing]</td>
-                                                                    <td>R$ $price_real</td>
-                                                                    <td>$row[name_region]</td>
-                                                                    <td>$row[name_country]</td>
-                                                                </tr>
-                                                            ";
-                                                        }
-                                                    ?>
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Imagem</th>
+                                                    <th>Nome</th>
+                                                    <th>Preço</th>
+                                                    <th>Região</th>
+                                                    <th>País</th>
+                                                </tr>
+                                            </thead>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Imagem</th>
+                                                    <th>Nome</th>
+                                                    <th>Preço</th>
+                                                    <th>Região</th>
+                                                    <th>País</th>
+                                                </tr>
+                                            </tfoot>
+                                            <tbody>
+                                                <?php 
+                                                    while($row = $result_products->fetch_assoc()){   
+                                                        
+                                                        $price_real = $row['price_listing'];
+                                                        
+                                                        echo "
+                                                            <tr>
+                                                                <td>$row[id]</td>
+                                                                <td><img src='uploads/$row[main_img]' width='100px'></td>
+                                                                <td>$row[name_listing]</td>
+                                                                <td>R$ $price_real</td>
+                                                                <td>$row[name_region]</td>
+                                                                <td>$row[name_country]</td>
+                                                            </tr>
+                                                        ";
+                                                    }
+                                                ?>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        
 
                         <div class="col-xl-4 col-lg-5">
                             <div class="card shadow mb-4">
@@ -208,12 +305,48 @@
     <script src="vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <script src="js/demo/datatables-demo.js"></script>
-
+    
     <script>
         $(document).ready(function() {
             $('#dataTable_demands').DataTable();
         });
     </script>
+
+    <script>
+        $('.select').jselect_search({
+            placeholder :'Procurar'
+        });
+        function updateTextInput(val) {
+          document.getElementById('textInput').value=val;
+        }
+    </script>
+
+<script>
+    $(document).ready(function(){
+        if($(".country").val() == ''){
+            $(".region_bra").css('display', 'block');
+            $(".region_eua").css('display', 'none');
+            $(".region_por").css('display', 'none');
+        }
+        $(".country").change(function() {
+            if($(this).val() == 'Brasil'){
+                $(".region_bra").css('display', 'block');
+                $(".region_eua").css('display', 'none');
+                $(".region_por").css('display', 'none');
+            }
+            if($(this).val() == 'Estados Unidos'){
+                $(".region_eua").css('display', 'block');
+                $(".region_bra").css('display', 'none');
+                $(".region_por").css('display', 'none');
+            }
+            if($(this).val() == 'Portugal'){
+                $(".region_eua").css('display', 'none');
+                $(".region_bra").css('display', 'none');
+                $(".region_por").css('display', 'block');
+            }
+        });
+    });
+  </script>
 
 </body>
 

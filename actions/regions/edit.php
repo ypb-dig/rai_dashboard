@@ -5,6 +5,7 @@
 
     $id = "";
     $name_region = "";
+    $name_country = "";
     $errorMessage = "";
 
     if ($_SERVER['REQUEST_METHOD'] == 'GET'){
@@ -16,7 +17,8 @@
 
         $id = $_GET["id"];
 
-        $sql = "SELECT * FROM regions WHERE id=$id";
+        $sql = "SELECT * FROM regions WHERE id = $id";
+
         $result = $conn->query($sql);
         $row = $result->fetch_assoc();
 
@@ -26,11 +28,13 @@
         }
 
         $name_region = $row["name_region"];
+        $name_country = $row["name_country"];
 
     }else{
 
         $id = $_POST["id"];
         $name_region = $_POST["name_region"];
+        $name_country = $_POST["name_country"];
 
         do{
             if( empty($id) || empty($name_region)){
@@ -38,7 +42,9 @@
                 break;
             }
 
-            $sql = "UPDATE regions SET name_region = '$name_region' WHERE id = $id"; 
+            $sql = "
+                UPDATE regions SET name_region = '$name_region', name_country = '$name_country' WHERE regions.id = $id;
+            "; 
             
             $result = $conn->query($sql);
 
@@ -70,7 +76,7 @@
 
                 <div class="container-xl px-4 mt-4">
                     <div class="row">
-                        <div class="col-xl-8">
+                        <div class="col-xl-12">
                             <div class="card mb-4">
                                 <div class="card-header">Detalhes da Região</div>
                                 <div class="card-body">
@@ -86,9 +92,20 @@
                                     <form method="POST">
                                         <input type="hidden" name="id" value="<?php echo $id; ?>">
                                         <div class="row gx-3 mb-3">
-                                            <div class="col-md-12">
-                                                <label class="small mb-1" for="inputFirstName">Nome</label>
+                                            <div class="col-md-6">
+                                                <label class="small mb-1" for="inputFirstName">Estado</label>
                                                 <input class="form-control" name="name_region" type="text" value="<?php echo $name_region; ?>">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class='select'>
+                                                    <label class="small mb-1" for="inputFirstName">País</label>
+                                                    <select name="name_country" id='select' class='form-control'>
+                                                        <option value="<?php echo $name_country; ?>"><?php echo $name_country; ?></option>  
+                                                        <option value="Brasil">Brasil</option>
+                                                        <option value="Estados Unidos">Estados Unidos</option>
+                                                        <option value="Portugal">Portugal</option>
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
                                         <button type="submit" class="btn btn-primary" type="button">Alterar Região</button>
@@ -113,6 +130,12 @@
 
     <?php include '../../inc/logoutModal.php'; ?>
     <?php include '../../inc/scripts.php'; ?>
+
+    <script>
+        $('.select').jselect_search({
+            placeholder :'Procurar'
+        });
+    </script>
 
 </body>
 

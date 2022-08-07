@@ -98,7 +98,6 @@
 
                 <form method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="id" value="<?php echo(rand(3,100000)); ?>">
-                    <input type="hidden" name="name_country" value="Brasil">
 
                     <div class="container-xl px-4 mt-4">
                         <div class="row">

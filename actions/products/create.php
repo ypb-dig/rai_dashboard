@@ -70,7 +70,7 @@
             
             foreach($idcategories as $category)
             {
-                $insert2 = "INSERT INTO cadastro_listing_categories (id, data, idcategories, idlistings)" . "VALUES (NULL, NOW(), '$category','$id')"; 
+                $insert2 = "INSERT INTO cadastro_listing_categories (id, data, idcategories, idlistings)" . "VALUES (NULL, NOW(), '$category', $id)"; 
                 // echo $category; 
                 $result_insert = $conn->query($insert2);
             }

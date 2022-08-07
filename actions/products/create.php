@@ -217,7 +217,7 @@
                                                 <div class='select'>
                                                     <label class="small mb-1" for="inputFirstName">Região</label>
                                                     <select name="idregion" id='select' class='form-control'>
-                                                        <option value="" selected>Selecione uma região</option>
+                                                        <option value="">Selecione uma região</option>
                                                         <?php 
                                                         if($result_regions->num_rows > 0){
                                                             while($row = $result_regions->fetch_assoc()){
@@ -235,7 +235,7 @@
                                                 <div class='select'>
                                                     <label class="small mb-1" for="inputFirstName">Região</label>
                                                     <select name="idregion" id='select' class='form-control'>
-                                                        <option value="" selected>Selecione uma região</option>
+                                                        <option value="">Selecione uma região</option>
                                                         <?php 
                                                         if($result_regions_eua->num_rows > 0){
                                                             while($row = $result_regions_eua->fetch_assoc()){
@@ -253,7 +253,7 @@
                                                 <div class='select'>
                                                     <label class="small mb-1" for="inputFirstName">Região</label>
                                                     <select name="idregion" id='select' class='form-control'>
-                                                        <option value="" selected>Selecione uma região</option>
+                                                        <option value="">Selecione uma região</option>
                                                         <?php 
                                                         if($result_regions_por->num_rows > 0){
                                                             while($row = $result_regions_por->fetch_assoc()){

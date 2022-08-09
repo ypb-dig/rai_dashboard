@@ -11,6 +11,7 @@
     $address_listing = "";
     $description_listing = "";
     $name_country = "";
+    $idcategories = "";
 
     $errorMessage = "";
 
@@ -40,8 +41,6 @@
 
         $price_real = str_replace(',00','', $price_listing);
 
-
-
         do{
             // if( empty($name_listing) || empty($price_listing) || empty($price_listing) || empty($address_listing) || empty($description_listing) || empty($idregions) || empty($idcategories) ){
             //     $errorMessage = "Todos os campos são obrigatórios";
@@ -58,26 +57,25 @@
                     $path_mainimg = "../../uploads/" . $nome_mainimg;
                     move_uploaded_file($main_img["tmp_name"], $path_mainimg);
 
-                    $insert = "INSERT INTO `listings` (`id`, `main_img`, `img1`, `img2`, `img3`, `name_listing`, `sign_listing`, `price_listing`, `address_listing`, `description_listing`, `datetime`, `idregion`) VALUES (NULL, '$nome_mainimg', '', '', '', '$name_listing', '$sign_listing', '$price_real', '$address_listing', '$description_listing', NOW(), $idregion);";
+                    $insert = "INSERT INTO `listings` (`id`, `main_img`, `img1`, `img2`, `img3`, `name_listing`, `sign_listing`, `price_listing`, `address_listing`, `description_listing`, `datetime`, `idregion`) VALUES (NULL, '$nome_mainimg', '', '', '', '$name_listing', '$sign_listing', '$price_real', '$address_listing', '$description_listing', NOW(), '$idregion');";
 
                     $result_insert = $conn->query($insert);
                 }
-                if(!$result_insert){
-                    $errorMessage = "Erro ao cadastrar" . $conn->error;
-                    break;
-                }
             }
-            
+
             foreach($idcategories as $category)
             {
-                $insert2 = "INSERT INTO cadastro_listing_categories (id, data, idcategories, idlistings)" . "VALUES (NULL, NOW(), '$category', $id);"; 
+                $insert2 = "INSERT INTO cadastro_listing_categories (id, data, idcategories, idlistings)" . "VALUES (NULL, NOW(), '$category', $id)"; 
                 // echo $category; 
                 $result_insert = $conn->query($insert2);
             }
-
+            
             $conn->commit();
 
-            
+            // if(!$result_insert){
+            //     $errorMessage = "Erro ao cadastrar" . $conn->error;
+            //     break;
+            // }
 
             header("Location: ../../products.php?msg=success");
             exit;
@@ -98,6 +96,7 @@
 
                 <form method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="id" value="<?php echo(rand(3,100000)); ?>">
+                    <input type="hidden" name="idregion" id="idregion" value="">
 
                     <div class="container-xl px-4 mt-4">
                         <div class="row">
@@ -216,7 +215,7 @@
                                             <div class="col-md-6 mt-2 region_bra">
                                                 <div class='select'>
                                                     <label class="small mb-1" for="inputFirstName">Região</label>
-                                                    <select name="idregion" id='select' class='form-control'>
+                                                    <select id='select' class='form-control' onchange="changeHiddenInput(this)">
                                                         <option value="">Selecione uma região</option>
                                                         <?php 
                                                         if($result_regions->num_rows > 0){
@@ -234,7 +233,7 @@
                                             <div class="col-md-6 mt-2 region_eua">
                                                 <div class='select'>
                                                     <label class="small mb-1" for="inputFirstName">Região</label>
-                                                    <select name="idregion" id='select' class='form-control'>
+                                                    <select id='select' class='form-control' onchange="changeHiddenInput(this)">
                                                         <option value="">Selecione uma região</option>
                                                         <?php 
                                                         if($result_regions_eua->num_rows > 0){
@@ -252,7 +251,7 @@
                                             <div class="col-md-6 mt-2 region_por">
                                                 <div class='select'>
                                                     <label class="small mb-1" for="inputFirstName">Região</label>
-                                                    <select name="idregion" id='select' class='form-control'>
+                                                    <select id='select' class='form-control' onchange="changeHiddenInput(this)">
                                                         <option value="">Selecione uma região</option>
                                                         <?php 
                                                         if($result_regions_por->num_rows > 0){
@@ -335,6 +334,12 @@
             }
         });
     });
+
+    function changeHiddenInput (objDropDown)
+    {
+        var objHidden = document.getElementById("idregion");
+        objHidden.value = objDropDown.value; 
+    }   
   </script>
 
 </body>

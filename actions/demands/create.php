@@ -9,7 +9,6 @@
     $contact_company = "";
     $phone_company = "";
     $features_company = "";
-    $idregions = "";
     $name_country = "";
     $idcategories ="";
 
@@ -89,6 +88,7 @@
 
                 <form method="POST">
                     <input type="hidden" name="id" value="<?php echo(rand(3,100000)); ?>">
+                    <input type="hidden" name="idregions" id="idregion" value="">
                     <div class="container-xl px-4 mt-4">
                         <div class="row">
                             <div class="col-xl-4">              
@@ -158,7 +158,7 @@
                                             <div class="col-md-6 region_bra">
                                                 <div class='select'>
                                                     <label class="small mb-1" for="inputFirstName">Região</label>
-                                                    <select name="idregions" id='select' class='form-control'>
+                                                    <select id='select' class='form-control' onchange="changeHiddenInput(this)">
                                                         <option value="" selected>Selecione uma região</option>
                                                         <?php 
                                                         if($result_regions->num_rows > 0){
@@ -175,7 +175,7 @@
                                             <div class="col-md-6 region_eua">
                                                 <div class='select'>
                                                     <label class="small mb-1" for="inputFirstName">Região</label>
-                                                    <select name="idregions" id='select' class='form-control'>
+                                                    <select id='select' class='form-control' onchange="changeHiddenInput(this)">
                                                         <option value="" selected>Selecione uma região</option>
                                                         <?php 
                                                         if($result_regions_eua->num_rows > 0){
@@ -192,7 +192,7 @@
                                             <div class="col-md-6 region_por">
                                                 <div class='select'>
                                                     <label class="small mb-1" for="inputFirstName">Região</label>
-                                                    <select name="idregions" id='select' class='form-control'>
+                                                    <select id='select' class='form-control' onchange="changeHiddenInput(this)">
                                                         <option value="" selected>Selecione uma região</option>
                                                         <?php 
                                                         if($result_regions_por->num_rows > 0){
@@ -266,6 +266,11 @@
                 }
             });
         });
+        function changeHiddenInput (objDropDown)
+        {
+            var objHidden = document.getElementById("idregion");
+            objHidden.value = objDropDown.value; 
+        }   
     </script>
 
 

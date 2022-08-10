@@ -57,7 +57,7 @@
                     $path_mainimg = "../../uploads/" . $nome_mainimg;
                     move_uploaded_file($main_img["tmp_name"], $path_mainimg);
 
-                    $insert = "INSERT INTO `listings` (`id`, `main_img`, `img1`, `img2`, `img3`, `name_listing`, `sign_listing`, `price_listing`, `address_listing`, `description_listing`, `datetime`, `idregion`) VALUES (NULL, '$nome_mainimg', '', '', '', '$name_listing', '$sign_listing', '$price_real', '$address_listing', '$description_listing', NOW(), '$idregion');";
+                    $insert = "INSERT INTO `listings` (`id`, `main_img`, `img1`, `img2`, `img3`, `name_listing`, `sign_listing`, `price_listing`, `address_listing`, `description_listing`, `datetime`, `idregion`) VALUES ($id, '$nome_mainimg', '', '', '', '$name_listing', '$sign_listing', '$price_real', '$address_listing', '$description_listing', NOW(), '$idregion');";
 
                     $result_insert = $conn->query($insert);
                 }
@@ -65,7 +65,7 @@
 
             foreach($idcategories as $category)
             {
-                $insert2 = "INSERT INTO cadastro_listing_categories (id, data, idcategories, idlistings)" . "VALUES (NULL, NOW(), '$category', $id)"; 
+                $insert2 = "INSERT INTO cadastro_listing_categories (id, data, idcategories, idlistings)" . "VALUES ($id, NOW(), '$category', $id)"; 
                 // echo $category; 
                 $result_insert = $conn->query($insert2);
             }

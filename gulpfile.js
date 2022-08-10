@@ -28,7 +28,7 @@ const banner = ['/*!\n',
 // BrowserSync
 function browserSync(done) {
   browsersync.init({
-      proxy: "localhost/rai/"
+      proxy: "localhost/rai/",
   });
   done();
 }

@@ -35,6 +35,7 @@
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
         $id = $_POST["id"];
+        $uid = $_POST["id"];
         $name_company = $_POST["name_company"];
         $source_company = $_POST["source_company"];
         $contact_company = $_POST["contact_company"];
@@ -51,7 +52,7 @@
 
             $conn->begin_transaction();
             
-            $insert = "INSERT INTO demands (id, name_company, source_company, contact_company, phone_company, features_company, idregions)" . "VALUES ($id, '$name_company', '$source_company', '$contact_company', '$phone_company', '$features_company', $idregions)";
+            $insert = "INSERT INTO demands (id, uid, name_company, source_company, contact_company, phone_company, features_company, idregions)" . "VALUES ($id, $uid, '$name_company', '$source_company', '$contact_company', '$phone_company', '$features_company', $idregions)";
 
             $result_insert = $conn->query($insert);
 

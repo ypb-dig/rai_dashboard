@@ -3,7 +3,7 @@
     include 'protect.php';
     include 'inc/head.php';
 
-    $listings = "SELECT listings.id, listings.main_img, listings.name_listing, listings.name_listing, listings.sign_listing, listings.price_listing, regions.name_region, regions.name_country 
+    $listings = "SELECT listings.id, listings.uid, listings.main_img, listings.name_listing, listings.name_listing, listings.sign_listing, listings.price_listing, regions.name_region, regions.name_country 
     FROM `listings` 
     JOIN regions 
     ON regions.id = listings.idregion;";
@@ -102,13 +102,14 @@
                                             while($row = $result->fetch_assoc()){
                                                 
                                                 $price_real = $row['price_listing'];
+                                                $price_format = number_format($price_real, 2,',','.');
                                                 
                                                 echo "
                                                     <tr>
-                                                        <td>$row[id]</td>
+                                                        <td>#$row[uid]</td>
                                                         <td><img src='uploads/$row[main_img]' width='100px'></td>
                                                         <td>$row[name_listing]</td>
-                                                        <td>$row[sign_listing] $price_real</td>
+                                                        <td>$row[sign_listing] $price_format</td>
                                                         <td>$row[name_region]</td>
                                                         <td>$row[name_country]</td>
                                                         <td>

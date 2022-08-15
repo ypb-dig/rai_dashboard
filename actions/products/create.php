@@ -79,8 +79,7 @@
                 }
             
             $conn->commit();    
-            
-            ob_start();
+        
             header("Location:../../products.php?msg=success");
             ob_end_flush();
 

@@ -78,9 +78,10 @@
             if(!$result_insert){
                 $errorMessage = "Erro ao cadastrar" . $conn->error;
                 break;
-            }else{
-                "<script type='text/javascript'>window.location.href = 'https://rainvestimentos.com.br/products.php?msg=success';</script>";
             }
+        
+            header("Location:../../products.php?msg=success");
+            exit;
 
         }while(false);   
     }

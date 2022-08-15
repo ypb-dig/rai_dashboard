@@ -79,7 +79,7 @@
                 $errorMessage = "Erro ao cadastrar" . $conn->error;
                 break;
             }else{
-                "<script type='text/javascript'>window.location.href = 'https://rainvestimentos.com.br/products?msg=success';</script>";
+                "<script type='text/javascript'>window.location.href = 'https://rainvestimentos.com.br/products.php?msg=success';</script>";
             }
 
         }while(false);   

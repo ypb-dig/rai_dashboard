@@ -75,13 +75,13 @@
             
             $conn->commit();
 
-            if(!$result_insert){
-                $errorMessage = "Erro ao cadastrar" . $conn->error;
-                break;
-            }else{
-                header("Location: ../../products?msg=success");
-                exit;
-            }
+            header("Location: ../../products?msg=success");
+            exit;
+
+            // if(!$result_insert){
+            //     $errorMessage = "Erro ao cadastrar" . $conn->error;
+            //     break;
+            // }
 
         }while(false);   
     }

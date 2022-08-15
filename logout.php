@@ -4,5 +4,5 @@
     }
 
     session_destroy();
-    header("Location: index.php");
+    header("Location:" .$permalink."/index.php");
 ?>

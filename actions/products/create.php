@@ -75,7 +75,10 @@
             
             $conn->commit();
 
-            header("Location: ../../products?msg=success");
+            echo '<script type="text/javascript">
+                    window.location = "https://rainvestimentos.com.br/products?msg=success"
+                  </script>'
+
             exit;
 
             // if(!$result_insert){

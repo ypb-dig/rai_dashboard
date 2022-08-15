@@ -52,39 +52,37 @@
 
             $conn->begin_transaction();
 
-            if($main_img !== null){
-                preg_match("/\.(png|jpg|jpeg){1}$/i", $main_img["name"], $ext);
-    
-                if($ext == true){
-                    $nome_mainimg = md5(uniqid(time())) . "." . $ext[1];
-                    $path_mainimg = "../../uploads/" . $nome_mainimg;
-                    move_uploaded_file($main_img["tmp_name"], $path_mainimg);
+                if($main_img !== null){
+                    preg_match("/\.(png|jpg|jpeg){1}$/i", $main_img["name"], $ext);
+        
+                    if($ext == true){
+                        $nome_mainimg = md5(uniqid(time())) . "." . $ext[1];
+                        $path_mainimg = "../../uploads/" . $nome_mainimg;
+                        move_uploaded_file($main_img["tmp_name"], $path_mainimg);
 
-                    $insert = "INSERT INTO `listings` (`id`, `uid`, `main_img`, `img1`, `img2`, `img3`, `name_listing`, `sign_listing`, `price_listing`, `address_listing`, `description_listing`, `datetime`, `idregion`) VALUES ($id, $uid, '$nome_mainimg', '', '', '', '$name_listing', '$sign_listing', '$price_format2', '$address_listing', '$description_listing', NOW(), '$idregion');";
+                        $insert = "INSERT INTO `listings` (`id`, `uid`, `main_img`, `img1`, `img2`, `img3`, `name_listing`, `sign_listing`, `price_listing`, `address_listing`, `description_listing`, `datetime`, `idregion`) VALUES ($id, $uid, '$nome_mainimg', '', '', '', '$name_listing', '$sign_listing', '$price_format2', '$address_listing', '$description_listing', NOW(), '$idregion');";
 
-                    $result_insert = $conn->query($insert);
+                        $result_insert = $conn->query($insert);
+                    }
                 }
-            }
 
-            foreach($idcategories as $category)
-            {
-                $insert2 = "INSERT INTO cadastro_listing_categories (id, data, idcategories, idlistings)" . "VALUES ($id, NOW(), '$category', $id)"; 
-                // echo $category; 
-                $result_insert = $conn->query($insert2);
-            }
+                foreach($idcategories as $category)
+                {
+                    $insert2 = "INSERT INTO cadastro_listing_categories (id, data, idcategories, idlistings)" . "VALUES ($id, NOW(), '$category', $id)"; 
+                    // echo $category; 
+                    $result_insert = $conn->query($insert2);
+                }
             
             $conn->commit();
 
-            echo '<script type="text/javascript">
-                    window.location = "https://rainvestimentos.com.br/products?msg=success"
-                  </script>'
-
-            exit;
-
-            // if(!$result_insert){
-            //     $errorMessage = "Erro ao cadastrar" . $conn->error;
-            //     break;
-            // }
+            if(!$result_insert){
+                $errorMessage = "Erro ao cadastrar" . $conn->error;
+                break;
+            }
+            if($result_insert){
+                header("Location: ../../products.php?msg=success");
+                exit;
+            }
 
         }while(false);   
     }

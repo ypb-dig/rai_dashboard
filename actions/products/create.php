@@ -45,10 +45,10 @@
         $price_format2 = str_replace(',','', $price_format);
 
         do{
-            // if( empty($name_listing) || empty($price_listing) || empty($price_listing) || empty($address_listing) || empty($description_listing) || empty($idregions) || empty($idcategories) ){
-            //     $errorMessage = "Todos os campos são obrigatórios";
-            //     break;
-            // }
+            if( empty($name_listing) || empty($price_listing) || empty($price_listing) || empty($address_listing) || empty($description_listing)){
+                $errorMessage = "Todos os campos são obrigatórios";
+                break;
+            }
 
             $conn->begin_transaction();
 
@@ -78,9 +78,10 @@
             if(!$result_insert){
                 $errorMessage = "Erro ao cadastrar" . $conn->error;
                 break;
+            }else{
+                header("Location: ../../products.php?msg=success");
             }
-
-            header("Location: ../../products.php?msg=success");
+            
             exit;
 
         }while(false);   

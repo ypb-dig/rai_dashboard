@@ -76,11 +76,14 @@
                 if(!$result_insert){
                     $errorMessage = "Erro ao cadastrar" . $conn->error;
                     break;
-                }else{
-                    header("Location:../../products.php?msg=success");
                 }
             
-            $conn->commit();  
+            $conn->commit();    
+            
+            ob_start();
+            header("Location:../../products.php?msg=success");
+            ob_end_flush();
+
             exit;
 
         }while(false);   

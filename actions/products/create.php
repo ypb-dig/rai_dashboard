@@ -42,6 +42,7 @@
 
         $price_real = str_replace(',00','', $price_listing);
         $price_format = str_replace('.','', $price_listing);
+        $price_format2 = str_replace(',','', $price_listing);
 
         do{
             // if( empty($name_listing) || empty($price_listing) || empty($price_listing) || empty($address_listing) || empty($description_listing) || empty($idregions) || empty($idcategories) ){
@@ -59,7 +60,7 @@
                     $path_mainimg = "../../uploads/" . $nome_mainimg;
                     move_uploaded_file($main_img["tmp_name"], $path_mainimg);
 
-                    $insert = "INSERT INTO `listings` (`id`, `uid`, `main_img`, `img1`, `img2`, `img3`, `name_listing`, `sign_listing`, `price_listing`, `address_listing`, `description_listing`, `datetime`, `idregion`) VALUES ($id, $uid, '$nome_mainimg', '', '', '', '$name_listing', '$sign_listing', '$price_format', '$address_listing', '$description_listing', NOW(), '$idregion');";
+                    $insert = "INSERT INTO `listings` (`id`, `uid`, `main_img`, `img1`, `img2`, `img3`, `name_listing`, `sign_listing`, `price_listing`, `address_listing`, `description_listing`, `datetime`, `idregion`) VALUES ($id, $uid, '$nome_mainimg', '', '', '', '$name_listing', '$sign_listing', '$price_format2', '$address_listing', '$description_listing', NOW(), '$idregion');";
 
                     $result_insert = $conn->query($insert);
                 }

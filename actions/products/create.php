@@ -72,16 +72,16 @@
                     // echo $category; 
                     $result_insert = $conn->query($insert2);
                 }
+
+                if(!$result_insert){
+                    $errorMessage = "Erro ao cadastrar" . $conn->error;
+                    break;
+                }else{
+                    header("Location:../../products.php?msg=success");
+                }
             
-            $conn->commit();
-
-            if(!$result_insert){
-                $errorMessage = "Erro ao cadastrar" . $conn->error;
-                break;
-            }
-
-            header("Location:../../products.php?msg=success");
-            exit();
+            $conn->commit();  
+            exit;
 
         }while(false);   
     }

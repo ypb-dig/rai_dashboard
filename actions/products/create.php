@@ -72,18 +72,15 @@
                     // echo $category; 
                     $result_insert = $conn->query($insert2);
                 }
-
-                if(!$result_insert){
-                    $errorMessage = "Erro ao cadastrar" . $conn->error;
-                    break;
-                }
             
             $conn->commit();    
-        
-            header("Location:../../products.php?msg=success");
-            ob_end_flush();
 
-            exit;
+            if(!$result_insert){
+                $errorMessage = "Erro ao cadastrar" . $conn->error;
+                break;
+            }else{
+                "<script type='text/javascript'>window.location.href = 'https://rainvestimentos.com.br/products?msg=success';</script>";
+            }
 
         }while(false);   
     }

@@ -2,8 +2,6 @@
 <?php
     $permalink = "https://rainvestimentos.com.br";
     // $permalink = "http://localhost:3000/rai";
-
-    ob_start();
 ?>
 
 <!DOCTYPE html>

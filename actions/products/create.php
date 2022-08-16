@@ -8,6 +8,7 @@
     error_reporting(E_ALL);
 
     $id = "";
+    $uid = "";
     $main_img = "";
     $name_listing = "";
     $sign_listing = "";

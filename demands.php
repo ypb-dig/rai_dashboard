@@ -96,12 +96,15 @@
                                             while($row = $result->fetch_assoc()){                                        
                                                 echo "
                                                     <tr>
-                                                        <td>$row[id]</td>
+                                                        <td>#$row[id]</td>
                                                         <td>$row[name_company]</td>
                                                         <td>$row[source_company]</td>
                                                         <td>$row[contact_company]</td>
                                                         <td>$row[phone_company]</td>
                                                         <td>
+                                                            <a class='btn btn-dark' href='actions/demands/view.php?id=$row[id]'>
+                                                                <i class='fas fa-eye'></i>
+                                                            </a>
                                                             <!--<a class='btn btn-info' href='actions/demands/edit.php?id=$row[id]'>
                                                                 <i class='fas fa-edit'></i>
                                                             </a>-->

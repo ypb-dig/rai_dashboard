@@ -34,7 +34,7 @@
 
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $id = $_POST["id"];
-        $uid = $_POST["id"];
+        $uid = $_POST["uid"];
         $main_img = $_FILES["main_img"];
         $name_listing = $_POST["name_listing"];
         $sign_listing = $_POST["sign_listing"];
@@ -103,6 +103,7 @@
 
                 <form method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="id" value="<?php echo(rand(3,100000)); ?>">
+                    <input type="hidden" name="uid" value="<?php echo(rand(3,100000)); ?>">
                     <input type="hidden" name="idregion" id="idregion" value="">
 
                     <div class="container-xl px-4 mt-4">

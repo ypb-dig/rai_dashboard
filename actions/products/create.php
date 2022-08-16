@@ -3,6 +3,10 @@
     include '../../protect.php';
     include '../../inc/head.php';
 
+    ini_set('display_errors', 1);
+    ini_set('log_errors', 1);
+    error_reporting(E_ALL);
+
     $id = "";
     $main_img = "";
     $name_listing = "";
@@ -79,7 +83,7 @@
                 $errorMessage = "Erro ao cadastrar" . $conn->error;
                 break;
             }
-            header("Location:../../products.php?msg=success", true, 301);
+            header("Location:../../products.php?msg=success",true,301);
             exit;
 
         }while(false);   

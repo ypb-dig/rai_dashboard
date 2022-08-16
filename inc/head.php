@@ -1,9 +1,7 @@
-
 <?php
     $permalink = "https://rainvestimentos.com.br";
     // $permalink = "http://localhost:3000/rai";
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 

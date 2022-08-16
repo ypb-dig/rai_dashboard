@@ -79,7 +79,6 @@
                 $errorMessage = "Erro ao cadastrar" . $conn->error;
                 break;
             }
-            flush();
             header("Location:../../products.php?msg=success", true, 301);
             exit;
 

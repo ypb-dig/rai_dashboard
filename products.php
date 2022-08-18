@@ -113,7 +113,7 @@
                                                         <td>$row[name_region]</td>
                                                         <td>$row[name_country]</td>
                                                         <td>
-                                                            <a class='btn btn-dark' href='actions/products/view.php?id=$row[id]'>
+                                                            <a class='btn btn-dark' href='actions/products/view.php?id=$row[id]&region=$row[name_region]'>
                                                                 <i class='fas fa-eye'></i>
                                                             </a>
                                                             <!---<a class='btn btn-info' href='actions/products/edit.php?id=$row[id]'>

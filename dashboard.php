@@ -293,7 +293,7 @@
                                                             
                                                             echo "
                                                                 <tr>
-                                                                    <td><a href='$permalink/actions/products/view.php?id=$row[uid]'>#$row[uid]</td>
+                                                                    <td><a href='$permalink/actions/products/view.php?id=$row[uid]&region=$row[name_region]'>#$row[uid]</td>
                                                                     <td><img src='uploads/$row[main_img]' width='100px'></td>
                                                                     <td>$row[name_listing]</td>
                                                                     <td>$row[sign_listing] $price_format</td>
@@ -346,7 +346,7 @@
                                                         while($row2 = $result_demands->fetch_assoc()){                                        
                                                             echo "
                                                                 <tr>
-                                                                    <td><a href='$permalink/actions/demands/view.php?id=$row2[uid]'>#$row2[uid]</a></td>
+                                                                    <td><a href='$permalink/actions/demands/view.php?id=$row2[uid]&region=$row2[name_region]'>#$row2[uid]</a></td>
                                                                     <td>$row2[name_company]</td>
                                                                     <td>$row2[phone_company]</td>
                                                                 </a></td>

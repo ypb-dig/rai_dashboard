@@ -151,7 +151,7 @@
                                                 
                                                 echo "
                                                     <tr>
-                                                        <td>#$row2[uid]</td>
+                                                        <td><a href='$permalink/actions/products/view.php?id=$row2[uid]&region=$row[name_region]'>#$row2[uid]</a></td>
                                                         <td><img src='$permalink/uploads/$row2[main_img]' width='100px'></td>
                                                         <td>$row2[name_listing]</td>
                                                         <td>$row2[sign_listing] $price_format</td>

@@ -445,7 +445,7 @@
         var range = document.getElementById('rangeInput');
 
         function searchData(){
-            window.location = 'dashboard.php?idregion='+idregion.value+'&range='+range.value+'000000'; 
+            window.location = 'dashboard.php?idregion='+idregion.value+'&range='+range.value+'000'; 
         }
     </script>
 

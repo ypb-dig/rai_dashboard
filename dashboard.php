@@ -385,7 +385,7 @@
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <script src="js/demo/datatables-demo.js"></script>
 
-    <script src="http://seodesigns.com/projects/codepen/071016/rangeslider.min.js"></script>
+    <script src="js/rangeslider.min.js"></script>
     
     <script>
         $(document).ready(function() {

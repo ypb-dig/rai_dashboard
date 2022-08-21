@@ -72,3 +72,10 @@ a {
 .select-search a.trigger {
   height: 40px !important;
 }
+
+input[type="range"]{
+  width: 100% !important;
+  position: inherit !important;
+  height: 10px !important;
+  opacity: inherit !important;
+}

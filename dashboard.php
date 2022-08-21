@@ -134,7 +134,7 @@
                     </div>   
 
                     <form action="dashboard.php" method="GET">
-                        <input type="hidden" name="rangeInput" id="rangeInput" value="5000000">
+                        <input type="hidden" name="rangeInput" id="rangeInput" value="5">
                         <input type="hidden" name="idregion" id="idregion" value="">
 
                         <div class="row products justify-content-center">
@@ -210,9 +210,12 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-4 text-left">
-                                            <label class="small mb-1" for="inputFirstName">Valor</label><br>
-                                            Até <output id="amount" name="amount" for="rangeInput" style="white-space: nowrap; width: 1.2em; overflow: hidden;text-overflow: clip; display: inline-flex;">05</output> Milhões<br>
-                                            <input type="range" id="rangeInput" name="rangeInput" oninput="amount.value=rangeInput.value" onchange="updateTextInput(this.value);" class="w-100" data-a-sign="" data-a-sep="." data-a-dec="," value="5000000" step="5000000" min="5000000" max="50000000">
+                                                <div class="output">
+                                                    Até <span id="output2">5</span> <span>Milhões</span>
+                                                </div>
+                                                <div class="range-container">
+                                                    <input type="range" min="0" max="3000" step="50" value="5">
+                                                </div>
                                             
                                             </div>
                                             <div class="col-md-10 offset-md-1">
@@ -381,6 +384,8 @@
     <script src="vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <script src="js/demo/datatables-demo.js"></script>
+
+    <script src="http://seodesigns.com/projects/codepen/071016/rangeslider.min.js"></script>
     
     <script>
         $(document).ready(function() {
@@ -440,8 +445,30 @@
         var range = document.getElementById('rangeInput');
 
         function searchData(){
-            window.location = 'dashboard.php?idregion='+idregion.value+'&range='+range.value; 
+            window.location = 'dashboard.php?idregion='+idregion.value+'&range='+range.value+'000000'; 
         }
+    </script>
+
+    <script>
+        $('input[type=range]').rangeslider({
+            polyfill: false,
+            rangeClass: 'rangeslider',
+            disabledClass: 'rangeslider--disabled',
+            horizontalClass: 'rangeslider--horizontal',
+            verticalClass: 'rangeslider--vertical',
+            fillClass: 'rangeslider__fill',
+            handleClass: 'rangeslider__handle'
+            });
+
+            //Functionality for a value feedback
+            var output = $('#rangeInput')[0];
+            var output2 = $('#output2')[0];
+
+            $(document).on('input', 'input[type="range"]', function(e) {
+            output.value = e.currentTarget.value;
+            output2.innerHTML = e.currentTarget.value;
+        });
+
     </script>
 
 </body>

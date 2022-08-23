@@ -9,6 +9,7 @@
     $contact_company = "";
     $phone_company = "";
     $features_company = "";
+    $main_pdf = "";
     $name_country = "";
     $idcategories ="";
 
@@ -41,6 +42,7 @@
         $contact_company = $_POST["contact_company"];
         $phone_company = $_POST["phone_company"];
         $features_company = $_POST["features_company"];
+        $main_pdf = $_FILES["main_pdf"];
         $idregions = $_POST["idregions"];
         $idcategories = $_POST["idcategories"];
 
@@ -52,7 +54,19 @@
 
             $conn->begin_transaction();
             
-            $insert = "INSERT INTO demands (id, uid, name_company, source_company, contact_company, phone_company, features_company, idregions)" . "VALUES ($id, $uid, '$name_company', '$source_company', '$contact_company', '$phone_company', '$features_company', $idregions)";
+            if($main_pdf !==null ){
+                preg_match("/\.(pdf){1}$/i", $main_pdf["name"], $ext);
+    
+                if($ext == true){
+                    $nome_pdf = md5(uniqid(time())) . "." . $ext[1];
+                    $path_pdf = "../../uploads/pdf/" . $nome_pdf;
+                    move_uploaded_file($main_pdf["tmp_name"], $path_pdf);
+
+                    $insert = "INSERT INTO demands (id, uid, name_company, source_company, contact_company, phone_company, features_company, main_pdf, idregions)" . "VALUES ($id, $uid, '$name_company', '$source_company', '$contact_company', '$phone_company', '$features_company', '$nome_pdf', $idregions)";
+
+                    $result_insert = $conn->query($insert);
+                }
+            }
 
             $result_insert = $conn->query($insert);
 
@@ -87,7 +101,7 @@
 
                 <?php include '../../inc/topnavbar.php' ?>
 
-                <form method="POST">
+                <form method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="id" value="<?php echo(rand(3,100000)); ?>">
                     <input type="hidden" name="idregions" id="idregion" value="">
                     <div class="container-xl px-4 mt-4">
@@ -205,6 +219,12 @@
                                                             }
                                                         ?>
                                                     </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 mt-4">
+                                                <label class="small mb-1" for="exampleFormControlTextarea1">PDF</label>
+                                                <div class="custom-file">
+                                                    <input type="file" class="form-control" name="main_pdf">
                                                 </div>
                                             </div>
                                             <div class="col-md-12 mt-3">

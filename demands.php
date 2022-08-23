@@ -110,7 +110,7 @@
                                                             <!--<a class='btn btn-info' href='actions/demands/edit.php?id=$row[id]'>
                                                                 <i class='fas fa-edit'></i>
                                                             </a>-->
-                                                            <a class='btn btn-danger' href='actions/demands/delete.php?id=$row[id]'>
+                                                            <a class='btn btn-danger' href='actions/demands/delete.php?id=$row[uid]'>
                                                                 <i class='fas fa-trash'></i>
                                                             </a>
                                                         </td>

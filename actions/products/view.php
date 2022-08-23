@@ -47,7 +47,26 @@
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="card mb-4">
-                                <div class="card-header">#<?php echo $id; ?> - <?php echo $row["name_listing"]; ?></div>
+                                <div class="card-header">
+                                    <div class="d-flex">
+                                        <div class="mr-auto">
+                                            #<?php echo $id; ?> - <?php echo $row["name_listing"]; ?>
+                                        </div>
+                                        <?php if(!empty($row["main_pdf"])){ ?>
+                                            <div>
+                                                <a href="<?php echo $permalink; ?>/uploads/pdf/<?php echo $row["main_pdf"]; ?>" target="_blank">
+                                                    <i class="far fa-file-pdf" style="font-size:22px;color:red"></i>
+                                                </a>
+                                            </div>
+                                        <?php }else{ ?>
+                                            <div class="d-none">
+                                                <a href="<?php echo $permalink; ?>/uploads/pdf/<?php echo $row["main_pdf"]; ?>" target="_blank">
+                                                    <i class="far fa-file-pdf" style="font-size:22px;color:red"></i>
+                                                </a>
+                                            </div>
+                                        <?php } ?>
+                                    </div>
+                                </div>
                                 <div class="card-body">
                                     <?php 
                                         if(!empty($errorMessage)){

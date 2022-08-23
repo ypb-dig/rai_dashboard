@@ -9,6 +9,7 @@
 
     $id = "";
     $main_img = "";
+    $main_pdf = "";
     $name_listing = "";
     $sign_listing = "";
     $price_listing = "";
@@ -41,6 +42,7 @@
         $price_listing = $_POST["price_listing"];
         $address_listing = $_POST["address_listing"];
         $description_listing = $_POST["description_listing"];
+        $main_pdf = $_FILES["main_pdf"];
         $idregion = $_POST["idregion"];
         $idcategories = $_POST["idcategories"];
 
@@ -56,15 +58,19 @@
 
             $conn->begin_transaction();
 
-                if($main_img !== null){
+                if($main_img !== null || $main_pdf !==null ){
                     preg_match("/\.(png|jpg|jpeg){1}$/i", $main_img["name"], $ext);
+                    preg_match("/\.(pdf){1}$/i", $main_pdf["name"], $ext1);
         
                     if($ext == true){
                         $nome_mainimg = md5(uniqid(time())) . "." . $ext[1];
+                        $nome_pdf = md5(uniqid(time())) . "." . $ext1[1];
                         $path_mainimg = "../../uploads/" . $nome_mainimg;
+                        $path_pdf = "../../uploads/pdf/" . $nome_pdf;
                         move_uploaded_file($main_img["tmp_name"], $path_mainimg);
+                        move_uploaded_file($main_pdf["tmp_name"], $path_pdf);
 
-                        $insert = "INSERT INTO `listings` (`id`, `uid`, `main_img`, `img1`, `img2`, `img3`, `name_listing`, `sign_listing`, `price_listing`, `address_listing`, `description_listing`, `datetime`, `idregion`) VALUES ($id, $uid, '$nome_mainimg', '', '', '', '$name_listing', '$sign_listing', '$price_format2', '$address_listing', '$description_listing', NOW(), '$idregion');";
+                        $insert = "INSERT INTO `listings` (`id`, `uid`, `main_img`, `img1`, `img2`, `img3`, `name_listing`, `sign_listing`, `price_listing`, `address_listing`, `description_listing`, `main_pdf`, `datetime`, `idregion`) VALUES ($id, $uid, '$nome_mainimg', '', '', '', '$name_listing', '$sign_listing', '$price_format2', '$address_listing', '$description_listing','$nome_pdf', NOW(), '$idregion');";
 
                         $result_insert = $conn->query($insert);
                     }
@@ -272,7 +278,12 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            
+                                            <div class="col-md-12 mt-4">
+                                                <label class="small mb-1" for="exampleFormControlTextarea1">PDF</label>
+                                                <div class="custom-file">
+                                                    <input type="file" class="form-control" name="main_pdf">
+                                                </div>
+                                            </div>
                                             <div class="col-md-12 mt-4">
                                                 <label class="small mb-1" for="exampleFormControlTextarea1">Descrição</label>
                                                 <textarea class="form-control" name="description_listing" rows="5" value="<?php echo $description_listing; ?>"></textarea>

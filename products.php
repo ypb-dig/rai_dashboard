@@ -116,9 +116,9 @@
                                                             <a class='btn btn-dark' href='actions/products/view.php?id=$row[id]&region=$row[name_region]'>
                                                                 <i class='fas fa-eye'></i>
                                                             </a>
-                                                            <!---<a class='btn btn-info' href='actions/products/edit.php?id=$row[id]'>
+                                                            <a class='btn btn-info' href='actions/products/edit.php?id=$row[id]&region=$row[name_region]'>
                                                                 <i class='fas fa-edit'></i>
-                                                            </a>-->
+                                                            </a>
                                                             <a class='btn btn-danger' href='actions/products/delete.php?id=$row[id]'>
                                                                 <i class='fas fa-trash'></i>
                                                             </a>

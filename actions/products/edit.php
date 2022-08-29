@@ -335,7 +335,7 @@
                                                                     </div>
                                                                 <?php } ?>
                                                             </div>-->
-                                                            <div class="col-md-12 mt-2">
+                                                            <div class="col-md-12 mt-4">
                                                                 <label class="small mb-1" for="exampleFormControlTextarea1">Descrição</label>
                                                                 <textarea class="form-control" name="description_listing" rows="5" value="<?php echo $row['description_listing'] ?>"><?php echo $row['description_listing'] ?></textarea>
                                                             </div> 

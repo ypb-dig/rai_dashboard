@@ -52,27 +52,18 @@
         $phone_company = $_POST["phone_company"];
         $features_company = $_POST["features_company"];
         $idregions = $_POST["idregions"];
-        $main_pdf = $_FILES["main_pdf"];
+        // $main_pdf = $_FILES["main_pdf"];
 
         do{
             if( empty($name_company) || empty($source_company) || empty($contact_company) || empty($phone_company) || empty($features_company)){
                 $errorMessage = "Todos os campos são obrigatórios";
                 break;
-            }
+            }          
 
-            if($main_pdf !==null ){
-                preg_match("/\.(pdf){1}$/i", $main_pdf["name"], $ext);
-    
-                if($ext == true){
-                    $nome_pdf = md5(uniqid(time())) . "." . $ext[1];
-                    $path_pdf = "../../uploads/pdf/" . $nome_pdf;
-                    move_uploaded_file($main_pdf["tmp_name"], $path_pdf);
+            $sql = "UPDATE demands SET name_company = '$name_company', source_company = '$source_company', contact_company = '$contact_company', phone_company = '$phone_company', features_company = '$features_company', idregions = '$idregions' WHERE id = $id"; 
 
-                    $sql = "UPDATE demands SET name_company = '$name_company', source_company = '$source_company', contact_company = '$contact_company', phone_company = '$phone_company', features_company = '$features_company', main_pdf = '$nome_pdf', idregions = '$idregions' WHERE id = $id"; 
-
-                    $result = $conn->query($sql);
-                }
-            }
+            $result = $conn->query($sql);
+               
 
             if(!$result){
                 $errorMessage = "Erro ao cadastrar" . $conn->error;
@@ -228,7 +219,7 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-md-12 mt-4">
+                                            <!-- <div class="col-md-12 mt-4">
                                                 <?php
                                                     $pdf = $row["main_pdf"];
                                                     if(!empty($pdf)){ 
@@ -245,8 +236,8 @@
                                                         <input type="file" class="form-control" name="main_pdf">
                                                     </div>
                                                <?php } ?>
-                                            </div>
-                                            <div class="col-md-12">
+                                            </div> -->
+                                            <div class="col-md-12 mt-4">
                                                 <label class="small mb-1" for="exampleFormControlTextarea1">Descrição</label>
                                                 <textarea class="form-control" name="features_company" rows="5" value="<?php echo $row['features_company'] ?>"><?php echo $row['features_company'] ?></textarea>
                                             </div>

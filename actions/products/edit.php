@@ -55,7 +55,7 @@
         $address_listing = $_POST["address_listing"];
         $description_listing = $_POST["description_listing"];
         $idregion = $_POST["idregion"];
-        $main_pdf = $_FILES["main_pdf"];
+        // $main_pdf = $_FILES["main_pdf"];
 
         $price_real = str_replace(',00','', $price_listing);
         $price_format = str_replace('.','', $price_real);
@@ -69,21 +69,12 @@
 
             $conn->begin_transaction();
 
-            if($main_pdf !==null ){
-                preg_match("/\.(pdf){1}$/i", $main_pdf["name"], $ext);
-    
-                if($ext == true){
-                    $nome_pdf = md5(uniqid(time())) . "." . $ext[1];
-                    $path_pdf = "../../uploads/pdf/" . $nome_pdf;
-                    move_uploaded_file($main_pdf["tmp_name"], $path_pdf);
+            $update = "UPDATE `listings` 
+                SET `name_listing` = '$name_listing', `sign_listing` = '$sign_listing', `price_listing` = '$price_format2', `address_listing` = '$address_listing', `description_listing` = '$description_listing', `idregion` = $idregion
+                WHERE `listings`.`id` = $id";
 
-                    $update = "UPDATE `listings` 
-                       SET `name_listing` = '$name_listing', `sign_listing` = '$sign_listing', `price_listing` = '$price_format2', `address_listing` = '$address_listing', `main_pdf` = '$nome_pdf', `description_listing` = '$description_listing', `idregion` = $idregion
-                       WHERE `listings`.`id` = $id";
-
-                    $result_update = $conn->query($update);
-                }
-            }
+            $result_update = $conn->query($update);
+                
 
             // if($main_img !== null){
             //     preg_match("/\.(png|jpg|jpeg){1}$/i", $main_img["name"], $ext);
@@ -156,7 +147,6 @@
                                     <form method="POST" enctype="multipart/form-data">
                                         <input type="hidden" name="id" value="<?php echo $id; ?>">
                                         <input type="hidden" name="idregion" id="idregion" value="<?php echo $row['idregion'] ?>">
-                                        <input type="hidden" name="main_pdf" id="main_pdf" value="<?php echo $row['main_pdf'] ?>">
 
                                         <div class="row gx-3 mb-3">
                                             <div class="col-xl-4">
@@ -327,7 +317,7 @@
                                                                 </div>
                                                             </div>
                                                             
-                                                            <div class="col-md-12 mt-4">
+                                                            <!-- <div class="col-md-12 mt-4">
                                                                 <?php
                                                                     $pdf = $row["main_pdf"];
                                                                     if(!empty($pdf)){ 
@@ -348,7 +338,7 @@
                                                             <div class="col-md-12 mt-2">
                                                                 <label class="small mb-1" for="exampleFormControlTextarea1">Descrição</label>
                                                                 <textarea class="form-control" name="description_listing" rows="5" value="<?php echo $row['description_listing'] ?>"><?php echo $row['description_listing'] ?></textarea>
-                                                            </div>
+                                                            </div> -->
                                                         </div>                              
                                                         <button type="submit" name="save" class="btn btn-primary" type="button">Alterar Produto</button>
                                                     </div>

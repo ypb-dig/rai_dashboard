@@ -156,6 +156,8 @@
                                     <form method="POST" enctype="multipart/form-data">
                                         <input type="hidden" name="id" value="<?php echo $id; ?>">
                                         <input type="hidden" name="idregion" id="idregion" value="<?php echo $row['idregion'] ?>">
+                                        <input type="hidden" name="main_pdf" id="main_pdf" value="<?php echo $row['main_pdf'] ?>">
+
                                         <div class="row gx-3 mb-3">
                                             <div class="col-xl-4">
                                                 <div class="card mb-4 mb-xl-0">

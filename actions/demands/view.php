@@ -14,6 +14,11 @@
                 JOIN demands d
                 ON c.idcategories = cat.id AND c.iddemands = d.id
                 WHERE r.name_region = '$region' AND d.uid = $id ";
+        
+        $categories = "SELECT DISTINCT name FROM cadastro_listing_categories c
+                JOIN categories cat
+                ON c.idcategories = cat.id
+                WHERE iddemands = $id";
 
         $sql2 = "SELECT * FROM listings l
                 JOIN regions r
@@ -22,6 +27,7 @@
 
         $result = $conn->query($sql);
         $result1 = $conn->query($sql);
+        $result_category = $conn->query($categories);
         $result_products = $conn->query($sql2);
     }
 ?>
@@ -111,9 +117,9 @@
                                             <div class="col-md-12 mt-1">
                                                 <label class="small mb-1" for="exampleFormControlTextarea1">Categorias: </label>
                                                 <?php 
-                                                    if($result1->num_rows > 0){
-                                                        while($row1 = $result1->fetch_assoc()){  
-                                                            echo "<span class='btn btn-info' style='font-size:12px;cursor: auto;'>$row1[name]</span> ";
+                                                    if($result_category->num_rows > 0){
+                                                        while($row2 = $result_category->fetch_assoc()){  
+                                                            echo "<span class='btn btn-info' style='font-size:12px;cursor: auto;'>$row2[name]</span> ";
                                                         }
                                                     }
                                                 ?>

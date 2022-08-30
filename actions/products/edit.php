@@ -22,6 +22,8 @@
     $country_por = "SELECT * FROM regions WHERE name_country = 'Portugal'";
     $result_regions_por = $conn->query($country_por);
 
+
+
     if ($_SERVER['REQUEST_METHOD'] == 'GET'){
 
         if(!isset($_GET["id"]) ){
@@ -32,12 +34,20 @@
         $id = $_GET["id"];
         $region = $_GET["region"];
         
-        $listings = "SELECT listings.id, listings.uid, listings.main_img, listings.name_listing, listings.sign_listing, listings.price_listing, listings.address_listing, listings.idregion, regions.name_region, regions.name_country, listings.description_listing, listings.main_pdf
-        FROM `listings` 
-        JOIN regions 
-        WHERE regions.name_region = '$region'";
+        $listings = "SELECT * FROM listings l
+        JOIN regions r
+        WHERE r.name_region = '$region'";
+
+        $listings2 = "SELECT * FROM cadastro_listing_categories c
+        JOIN categories cat JOIN regions r JOIN listings l
+        ON c.idcategories = cat.id AND l.idregion = r.id
+        WHERE c.idlistings = $id AND r.name_region = '$region'";
+
+        $categories = "SELECT * FROM categories";
 
         $result = $conn->query($listings);
+        $result2 = $conn->query($listings2);
+        $result_categories = $conn->query($categories);
 
         // if(!$row){
         //     header("Location: ../../products.php");
@@ -55,7 +65,7 @@
         $address_listing = $_POST["address_listing"];
         $description_listing = $_POST["description_listing"];
         $idregion = $_POST["idregion"];
-        // $main_pdf = $_FILES["main_pdf"];
+        $idcategories = $_POST["idcategories"];
 
         $price_real = str_replace(',00','', $price_listing);
         $price_format = str_replace('.','', $price_real);
@@ -90,12 +100,12 @@
             //     }
             // }
             
-            // foreach($idcategories as $category)
-            // {
-            //     $insert2 = "INSERT INTO cadastro_listing_categories (id, data, idcategories, idlistings)" . "VALUES (NULL, NOW(), '$category','$id')"; 
-            //     // echo $category; 
-            //     $result_insert = $conn->query($insert2);
-            // }
+            foreach($idcategories as $category)
+            {
+                $insert2 = "INSERT INTO cadastro_listing_categories (id, data, idcategories, idlistings)" . "VALUES (NULL, NOW(), '$category','$id')"; 
+                // echo $category; 
+                $result_insert = $conn->query($insert2);
+            }
 
             $conn->commit();
 
@@ -179,27 +189,27 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <!-- <div class="card my-4 mb-xl-0">
+                                                <div class="card my-4 mb-xl-0">
                                                     <div class="card-header">Categorias</div>
                                                     <div class="card-body overflow-y">
-                                                        <div class="form-group form-check">
-                                                            
+                                                        <div class="form-group form-check"> 
                                                             <?php 
-                                                                if($result_select->num_rows > 0){
-                                                                    while($row = $result_select->fetch_assoc()){
-                                                                        echo "
-                                                                        <div class='form-group form-check categories'>
-                                                                            <input type='checkbox' value='".$row['id']."' name='idcategories[]' class='form-check-input'>
-                                                                            <label class='small mb-0'>".$row['name']."</label>
-                                                                        </div>";
-                                                                    }
-                                                                }else{
-                                                                    echo "0 Resultados";
-                                                                }
-                                                            ?>
+                                                                while($row2 = $result2->fetch_assoc()){
+                                                            ?>     
+                                                            <?php
+                                                                if($result_categories->num_rows > 0){
+                                                                    $checked = $row2['idcategories'];
+                                                                    while($row1 = $result_categories->fetch_assoc()){
+                                                                ?>
+                                                                <div class='form-group form-check categories'>
+                                                                    <input type='checkbox' value="<?php echo $row1['id'] ?>" name='idcategories[]' class='form-check-input' <?php if($row1['id']==$checked){echo "checked='checked'"; } ?>>
+                                                                    <label class='small mb-0'><?php echo $row1['name']; ?></label>
+                                                                        </div>
+                                                                <?php }} ?>
+                                                            <?php } ?>
                                                         </div>
                                                     </div>
-                                                </div> -->
+                                                </div>
                                             </div>
                                             <div class="col-xl-8">
                                                 <div class="card mb-4">

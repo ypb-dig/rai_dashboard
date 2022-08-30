@@ -3,8 +3,8 @@
     include '../../protect.php';
     include '../../inc/head.php';
 
-    ini_set('display_errors', 1);
-    ini_set('log_errors', 1);
+    ini_set('display_errors', 0);
+    ini_set('display_startup_erros', 0);
     error_reporting(E_ALL);
 
     $id = "";
@@ -84,7 +84,8 @@
                 }
 
                 if(!$result_insert){
-                    $errorMessage = "Erro ao cadastrar" . $conn->error;
+                    // $errorMessage = "Erro ao cadastrar" . $conn->error;
+                    $errorMessage = "Erro ao cadastrar, um ou mais campos obrigatórios não foram preenchidos";
                     break;
                 }
             

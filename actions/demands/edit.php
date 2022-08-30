@@ -36,7 +36,17 @@
 
         $sql = "SELECT * FROM demands d JOIN regions r WHERE r.name_region = '$region'";
 
+        $demands = "SELECT * FROM cadastro_listing_categories c
+        JOIN categories cat JOIN regions r JOIN demands d
+        ON c.idcategories = cat.id AND d.idregions = r.id
+        WHERE c.iddemands = $id AND r.name_region = '$region'";
+
+        $categories = "SELECT * FROM categories";
+
         $result = $conn->query($sql);
+        $result_demands = $conn->query($demands);
+        $result_categories = $conn->query($categories);
+
 
         // if(!$row){
         //     header("Location: ../../demands.php");
@@ -52,21 +62,32 @@
         $phone_company = $_POST["phone_company"];
         $features_company = $_POST["features_company"];
         $idregions = $_POST["idregions"];
-        // $main_pdf = $_FILES["main_pdf"];
+        $idcategories = $_POST["idcategories"];
 
         do{
             if( empty($name_company) || empty($source_company) || empty($contact_company) || empty($phone_company) || empty($features_company)){
                 $errorMessage = "Todos os campos são obrigatórios";
                 break;
-            }          
+            }
+            
+            $conn->begin_transaction();
 
             $sql = "UPDATE demands SET name_company = '$name_company', source_company = '$source_company', contact_company = '$contact_company', phone_company = '$phone_company', features_company = '$features_company', idregions = '$idregions' WHERE id = $id"; 
 
             $result = $conn->query($sql);
+
+
+            foreach($idcategories as $category)
+            {
+                $insert2 = "INSERT INTO cadastro_listing_categories (id, data, idcategories, iddemands)" . "VALUES (NULL, NOW(), '$category','$id')"; 
+                $result = $conn->query($insert2);
+            }
+            
                
+            $conn->commit();
 
             if(!$result){
-                $errorMessage = "Erro ao cadastrar" . $conn->error;
+                $errorMessage = "Erro ao cadastrar, um ou mais campos obrigatórios não foram preenchidos";
                 break;
             }
             
@@ -89,49 +110,51 @@
 
                 <?php include '../../inc/topnavbar.php' ?>
 
-                <div class="container-xl px-4 mt-4">
-                    <div class="row">
-                        <div class="col-xl-4">              
-                            <div class="card mb-xl-0">
-                                <div class="card-header">Categorias</div>
-                                <div class="card-body overflow-y">
-                                    <!-- <div class="form-group form-check">        
+                <?php 
+                    while($row = $result->fetch_assoc()){
+                ?>
+                <form method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="id" value="<?php echo $id; ?>">
+                    <input type="hidden" name="idregions" id="idregion" value="<?php echo $row['idregions'] ?>">
+                    <div class="container-xl px-4 mt-4">
+                        <div class="row">
+                            <div class="col-xl-4">            
+                                <div class="card my-4 mb-xl-0">
+                                    <div class="card-header">Categorias</div>
+                                    <div class="card-body overflow-y">
+                                        <div class="form-group form-check"> 
+                                            <?php 
+                                                while($row2 = $result_demands->fetch_assoc()){
+                                            ?>     
+                                            <?php
+                                                if($result_categories->num_rows > 0){
+                                                    $checked = $row2['idcategories'];
+                                                    while($row1 = $result_categories->fetch_assoc()){
+                                                ?>
+                                                <div class='form-group form-check categories'>
+                                                    <input type='checkbox' value="<?php echo $row1['id'] ?>" name='idcategories[]' class='form-check-input' <?php if($row1['id']==$checked){echo "checked='checked'"; } ?>>
+                                                    <label class='small mb-0'><?php echo $row1['name']; ?></label>
+                                                        </div>
+                                                <?php }} ?>
+                                            <?php } ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-8">
+                                <div class="card mb-4">
+                                    <div class="card-header">Detalhes da Demanda</div>
+                                    <div class="card-body">
                                         <?php 
-                                            if($result_select->num_rows > 0){
-                                                while($row = $result_select->fetch_assoc()){
-                                                    echo "
-                                                    <div class='form-group form-check categories'>
-                                                        <input type='checkbox' value='".$row['id']."' name='idcategories[]' class='form-check-input'>
-                                                        <label class='small mb-0'>".$row['name']."</label>
+                                            if(!empty($errorMessage)){
+                                                echo "<div class='card mb-4 py-0 border-left-danger'>
+                                                        <div class='card-body p-2 text-danger'>
+                                                            $errorMessage
+                                                        </div>
                                                     </div>";
-                                                }
-                                            }else{
-                                                echo "0 Resultados";
                                             }
                                         ?>
-                                    </div> -->
-                                </div>
-                            </div>   
-                        </div>
-                        <div class="col-xl-8">
-                            <div class="card mb-4">
-                                <div class="card-header">Detalhes da Demanda</div>
-                                <div class="card-body">
-                                    <?php 
-                                        if(!empty($errorMessage)){
-                                            echo "<div class='card mb-4 py-0 border-left-danger'>
-                                                    <div class='card-body p-2 text-danger'>
-                                                        $errorMessage
-                                                    </div>
-                                                </div>";
-                                        }
-                                    ?>
-                                    <?php 
-                                        while($row = $result->fetch_assoc()){
-                                    ?>
-                                    <form method="POST" enctype="multipart/form-data">
-                                        <input type="hidden" name="id" value="<?php echo $id; ?>">
-                                        <input type="hidden" name="idregions" id="idregion" value="<?php echo $row['idregions'] ?>">
+                                        
                                         <div class="row gx-3 mb-3">
                                             <div class="col-md-6 mb-3">
                                                 <label class="small mb-1" for="inputFirstName">Empresa</label>
@@ -235,7 +258,7 @@
                                                     <div class="custom-file">
                                                         <input type="file" class="form-control" name="main_pdf">
                                                     </div>
-                                               <?php } ?>
+                                            <?php } ?>
                                             </div> -->
                                             <div class="col-md-12 mt-4">
                                                 <label class="small mb-1" for="exampleFormControlTextarea1">Descrição</label>
@@ -244,14 +267,15 @@
                                         </div>
                                         
                                         <button type="submit" class="btn btn-primary" type="button">Cadastrar Demanda</button>
-                                    </form>
-                                    <?php  } ?>
+                                        
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- /.container-fluid -->
+                    <!-- /.container-fluid -->
+                    </form>
+                <?php  } ?>
             </div>
 
             <?php include '../../inc/footer.php'; ?>

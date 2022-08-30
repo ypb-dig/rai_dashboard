@@ -3,6 +3,9 @@
     include '../../protect.php';
     include '../../inc/head.php';
 
+    ini_set('display_errors', 0);
+    ini_set('display_startup_erros', 0);
+
     $id = "";
     $name_company = "";
     $source_company = "";
@@ -54,7 +57,7 @@
 
             $conn->begin_transaction();
             
-            if($main_pdf !==null ){
+            if(!empty($main_pdf)){
                 preg_match("/\.(pdf){1}$/i", $main_pdf["name"], $ext);
     
                 if($ext == true){
@@ -68,8 +71,6 @@
                 }
             }
 
-            $result_insert = $conn->query($insert);
-
             foreach($idcategories as $category)
             {
                 $insert2 = "INSERT INTO cadastro_listing_categories (id, data, idcategories, iddemands)" . "VALUES (NULL, NOW(), '$category','$id')"; 
@@ -78,7 +79,8 @@
             }
 
             if(!$result_insert){
-                $errorMessage = "Erro ao cadastrar" . $conn->error;
+                // $errorMessage = "Erro ao cadastrar" . $conn->error;
+                $errorMessage = "Erro ao cadastrar, um ou mais campos obrigatórios não foram preenchidos";
                 break;
             }
 

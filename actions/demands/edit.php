@@ -34,7 +34,10 @@
         $id = $_GET["id"];
         $region = $_GET["region"];
 
-        $sql = "SELECT * FROM demands d JOIN regions r WHERE r.name_region = '$region'";
+        $sql = "SELECT * FROM demands d 
+        JOIN regions r
+        ON r.id = d.idregions
+        WHERE r.name_region = '$region'";
 
         $demands = "SELECT * FROM cadastro_listing_categories c
         JOIN categories cat JOIN regions r JOIN demands d
@@ -119,7 +122,7 @@
                     <div class="container-xl px-4 mt-4">
                         <div class="row">
                             <div class="col-xl-4">            
-                                <div class="card my-4 mb-xl-0">
+                                <div class="card mb-4 mb-xl-0">
                                     <div class="card-header">Categorias</div>
                                     <div class="card-body overflow-y">
                                         <div class="form-group form-check"> 

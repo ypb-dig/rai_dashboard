@@ -58,12 +58,15 @@
                                         <div class="mr-auto">
                                             #<?php echo $id; ?> - <?php echo $row["name_listing"]; ?>
                                         </div>
-                                        <?php if(!empty($row["main_pdf"])){ ?>
-                                            <div>
-                                                <a href="<?php echo $permalink; ?>/uploads/pdf/<?php echo $row["main_pdf"]; ?>" target="_blank">
-                                                    <i class="far fa-file-pdf" style="font-size:22px;color:red"></i>
-                                                </a>
-                                            </div>
+                                        <?php 
+                                            $path = $row["main_pdf"];
+                                            if(strpos($path, '.pdf') !== false){
+                                        ?>
+                                        <div>
+                                            <a href="<?php echo $permalink; ?>/uploads/pdf/<?php echo $row["main_pdf"]; ?>" target="_blank">
+                                                <i class="far fa-file-pdf" style="font-size:22px;color:red"></i>
+                                            </a>
+                                        </div>
                                         <?php }else{ ?>
                                             <div class="d-none">
                                                 <a href="<?php echo $permalink; ?>/uploads/pdf/<?php echo $row["main_pdf"]; ?>" target="_blank">

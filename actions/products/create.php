@@ -58,7 +58,7 @@
 
             $conn->begin_transaction();
 
-                if($main_img !== null || $main_pdf !==null ){
+                if($main_img !== null && $main_pdf !==''){
                     preg_match("/\.(png|jpg|jpeg){1}$/i", $main_img["name"], $ext);
                     preg_match("/\.(pdf){1}$/i", $main_pdf["name"], $ext1);
         
@@ -70,9 +70,15 @@
                         move_uploaded_file($main_img["tmp_name"], $path_mainimg);
                         move_uploaded_file($main_pdf["tmp_name"], $path_pdf);
 
-                        $insert = "INSERT INTO `listings` (`id`, `uid`, `main_img`, `img1`, `img2`, `img3`, `name_listing`, `sign_listing`, `price_listing`, `address_listing`, `description_listing`, `main_pdf`, `datetime`, `idregion`) VALUES ($id, $uid, '$nome_mainimg', '', '', '', '$name_listing', '$sign_listing', '$price_format2', '$address_listing', '$description_listing','$nome_pdf', NOW(), '$idregion');";
+                        if(!empty($main_pdf)){
+
+                            $insert = "INSERT INTO `listings` (`id`, `uid`, `main_img`, `img1`, `img2`, `img3`, `name_listing`, `sign_listing`, `price_listing`, `address_listing`, `description_listing`, `main_pdf`, `datetime`, `idregion`) VALUES ($id, $uid, '$nome_mainimg', '', '', '', '$name_listing', '$sign_listing', '$price_format2', '$address_listing', '$description_listing','$nome_pdf', NOW(), '$idregion');";
+                        }else{
+                            $insert = "INSERT INTO `listings` (`id`, `uid`, `main_img`, `img1`, `img2`, `img3`, `name_listing`, `sign_listing`, `price_listing`, `address_listing`, `description_listing`, `main_pdf`, `datetime`, `idregion`) VALUES ($id, $uid, '$nome_mainimg', '', '', '', '$name_listing', '$sign_listing', '$price_format2', '$address_listing', '$description_listing','', NOW(), '$idregion');";
+                        }
 
                         $result_insert = $conn->query($insert);
+
                     }
                 }
 

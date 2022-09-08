@@ -68,6 +68,10 @@
                     $insert = "INSERT INTO demands (id, uid, name_company, source_company, contact_company, phone_company, features_company, main_pdf, idregions)" . "VALUES ($id, $uid, '$name_company', '$source_company', '$contact_company', '$phone_company', '$features_company', '$nome_pdf', $idregions)";
 
                     $result_insert = $conn->query($insert);
+                }else{
+                    $insert = "INSERT INTO demands (id, uid, name_company, source_company, contact_company, phone_company, features_company, main_pdf, idregions)" . "VALUES ($id, $uid, '$name_company', '$source_company', '$contact_company', '$phone_company', '$features_company', '', $idregions)";
+
+                    $result_insert = $conn->query($insert);
                 }
             }
 

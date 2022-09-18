@@ -36,7 +36,8 @@
         
         $listings = "SELECT * FROM listings l
         JOIN regions r
-        WHERE r.name_region = '$region'";
+        ON r.id = l.idregion
+        WHERE l.id = '$id'";
 
         $listings2 = "SELECT * FROM cadastro_listing_categories c
         JOIN categories cat JOIN regions r JOIN listings l

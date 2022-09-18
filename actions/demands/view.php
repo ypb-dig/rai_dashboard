@@ -12,8 +12,8 @@
                 JOIN categories cat 
                 JOIN regions r 
                 JOIN demands d
-                ON c.idcategories = cat.id AND c.iddemands = d.id
-                WHERE r.name_region = '$region' AND d.uid = $id ";
+                ON c.idcategories = cat.id AND d.idregions = r.id
+                WHERE c.iddemands = $id AND r.name_region = '$region' ";
         
         $categories = "SELECT DISTINCT name FROM cadastro_listing_categories c
                 JOIN categories cat

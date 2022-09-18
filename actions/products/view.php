@@ -3,10 +3,6 @@
     include '../../protect.php';
     include '../../inc/head.php';
 
-    $id = "";
-    $name_listing = "";
-    
-
     if ($_SERVER['REQUEST_METHOD'] == 'GET'){
 
         $id = $_GET["id"];

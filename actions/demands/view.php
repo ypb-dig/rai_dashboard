@@ -128,7 +128,7 @@
                                                 <?php 
                                                     if($result_category->num_rows > 0){
                                                         while($row2 = $result_category->fetch_assoc()){  
-                                                            echo "<span class='btn btn-info' style='font-size:12px;cursor: auto;'>$row2[name]</span> ";
+                                                            echo "<span class='btn btn-info my-1' style='font-size:12px;cursor: auto;'>$row2[name]</span> ";
                                                         }
                                                     }
                                                 ?>

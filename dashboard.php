@@ -332,7 +332,6 @@
                                                     <tr>
                                                         <th>ID</th>
                                                         <th>Empresa</th>
-                                                        <th>Fone</th>
                                                         <!-- <th></th> -->
                                                     </tr>
                                                 </thead>
@@ -340,7 +339,6 @@
                                                     <tr>
                                                         <th>ID</th>
                                                         <th>Empresa</th>
-                                                        <th>Fone</th>
                                                         <!-- <th></th> -->
                                                     </tr>
                                                 </tfoot>
@@ -351,7 +349,6 @@
                                                                 <tr>
                                                                     <td><a href='$permalink/actions/demands/view.php?id=$row2[uid]&region=$row2[name_region]'>#$row2[uid]</a></td>
                                                                     <td>$row2[name_company]</td>
-                                                                    <td>$row2[phone_company]</td>
                                                                 </a></td>
                                                                 </tr>
                                                             ";

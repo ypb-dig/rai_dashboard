@@ -17,11 +17,11 @@
                         JOIN categories cat
                         ON c.idcategories = cat.id
                         WHERE idlistings = $id";
-
+        
         $sql2 = "SELECT * FROM demands d
-                JOIN regions r
-                ON d.idregions = r.id 
-                WHERE r.name_region='$region'";
+            JOIN regions r
+            ON d.idregions = r.id 
+            WHERE r.name_region='$region' OR r.name_region='Todas as Regiões'";
 
         $result = $conn->query($sql);
         $result1 = $conn->query($sql);
@@ -197,7 +197,7 @@
                                                 while($row2 = $result_demands->fetch_assoc()){                                        
                                                 echo "
                                                     <tr>
-                                                        <td><a href='$permalink/actions/demands/view.php?id=$row2[uid]&region=$row[name_region]'>#$row2[uid]</a></td>
+                                                        <td><a href='$permalink/actions/demands/view.php?id=$row2[uid]&region=$row2[name_region]'>#$row2[uid]</a></td>
                                                         <td>$row2[name_company]</td>
                                                         <td>$row2[source_company]</td>
                                                         <td>$row2[contact_company]</td>

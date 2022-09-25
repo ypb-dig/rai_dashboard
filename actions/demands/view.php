@@ -20,10 +20,16 @@
                 ON c.idcategories = cat.id
                 WHERE iddemands = $id";
 
-        $sql2 = "SELECT * FROM listings l
+        if($region == "Todas as Regiões"){
+            $sql2 = "SELECT * FROM listings l
+                JOIN regions r
+                ON l.idregion = r.id";
+        }else{
+            $sql2 = "SELECT * FROM listings l
                 JOIN regions r
                 ON l.idregion = r.id
                 WHERE r.name_region='$region'";
+        }   
 
         $result = $conn->query($sql);
         $result1 = $conn->query($sql);
@@ -184,7 +190,7 @@
                                                 
                                                 echo "
                                                     <tr>
-                                                        <td><a href='$permalink/actions/products/view.php?id=$row2[uid]&region=$row[name_region]'>#$row2[uid]</a></td>
+                                                        <td><a href='$permalink/actions/products/view.php?id=$row2[uid]&region=$row2[name_region]'>#$row2[uid]</a></td>
                                                         <td><img src='$permalink/uploads/$row2[main_img]' width='100px'></td>
                                                         <td>$row2[name_listing]</td>
                                                         <td>$row2[sign_listing] $price_format</td>

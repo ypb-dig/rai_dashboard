@@ -3,11 +3,13 @@
     include 'protect.php';
     include 'inc/head.php';
 
-    $listings = "SELECT listings.id, listings.uid, listings.main_img, listings.name_listing, listings.name_listing, listings.sign_listing, listings.price_listing, regions.name_region, regions.name_country 
-    FROM `listings` 
-    JOIN regions 
-    ON regions.id = listings.idregion;";
-    // $listings = "SELECT listings.id, listings.main_img, listings.name_listing, listings.name_listing, listings.sign_listing, listings.price_listing FROM `listings` ";
+    $listings = "SELECT c.id, c.idcategories, c.idlistings,l.uid, l.main_img, l.name_listing, l.price_listing,r.name_region,r.name_country, cat.id, cat.name,r.name_region FROM cadastro_listing_categories c
+    JOIN categories cat
+    JOIN listings l
+    JOIN regions r
+    ON c.idcategories = cat.id AND l.id = c.idlistings AND l.idregion = r.id
+    GROUP BY c.idlistings";
+
     $result = $conn->query($listings);
 
     if(!$result){
@@ -113,13 +115,13 @@
                                                         <td>$row[name_region]</td>
                                                         <td>$row[name_country]</td>
                                                         <td>
-                                                            <a class='btn btn-dark' href='actions/products/view.php?id=$row[id]&region=$row[name_region]'>
+                                                            <a class='btn btn-dark' href='actions/products/view.php?id=$row[uid]&region=$row[name_region]&cat=$row[name]'>
                                                                 <i class='fas fa-eye'></i>
                                                             </a>
-                                                            <a class='btn btn-info' href='actions/products/edit.php?id=$row[id]&region=$row[name_region]'>
+                                                            <a class='btn btn-info' href='actions/products/edit.php?id=$row[uid]&region=$row[name_region]'>
                                                                 <i class='fas fa-edit'></i>
                                                             </a>
-                                                            <a class='btn btn-danger' href='actions/products/delete.php?id=$row[id]'>
+                                                            <a class='btn btn-danger' href='actions/products/delete.php?id=$row[uid]'>
                                                                 <i class='fas fa-trash'></i>
                                                             </a>
                                                         </td>

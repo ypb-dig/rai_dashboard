@@ -8,6 +8,7 @@
 
     $id = "";
     $name_company = "";
+    $email_company ="";
     $source_company = "";
     $contact_company = "";
     $phone_company = "";
@@ -41,6 +42,7 @@
         $id = $_POST["id"];
         $uid = $_POST["id"];
         $name_company = $_POST["name_company"];
+        $email_company = $_POST["email_company"];
         $source_company = $_POST["source_company"];
         $contact_company = $_POST["contact_company"];
         $phone_company = $_POST["phone_company"];
@@ -50,7 +52,7 @@
         $idcategories = $_POST["idcategories"];
 
         do{
-            if( empty($name_company) || empty($source_company) || empty($contact_company) || empty($phone_company) || empty($features_company)){
+            if( empty($name_company) || empty($contact_company)){
                 $errorMessage = "Todos os campos são obrigatórios";
                 break;
             }
@@ -65,11 +67,11 @@
                     $path_pdf = "../../uploads/pdf/" . $nome_pdf;
                     move_uploaded_file($main_pdf["tmp_name"], $path_pdf);
 
-                    $insert = "INSERT INTO demands (id, uid, name_company, source_company, contact_company, phone_company, features_company, main_pdf, idregions)" . "VALUES ($id, $uid, '$name_company', '$source_company', '$contact_company', '$phone_company', '$features_company', '$nome_pdf', $idregions)";
+                    $insert = "INSERT INTO demands (id, uid, name_company, email_company, source_company, contact_company, phone_company, features_company, main_pdf, idregions)" . "VALUES ($id, $uid, '$name_company', '$email_company', '$source_company', '$contact_company', '$phone_company', '$features_company', '$nome_pdf', $idregions)";
 
                     $result_insert = $conn->query($insert);
                 }else{
-                    $insert = "INSERT INTO demands (id, uid, name_company, source_company, contact_company, phone_company, features_company, main_pdf, idregions)" . "VALUES ($id, $uid, '$name_company', '$source_company', '$contact_company', '$phone_company', '$features_company', '', $idregions)";
+                    $insert = "INSERT INTO demands (id, uid, name_company, email_company, source_company, contact_company, phone_company, features_company, main_pdf, idregions)" . "VALUES ($id, $uid, '$name_company', '$email_company', '$source_company', '$contact_company', '$phone_company', '$features_company', '', $idregions)";
 
                     $result_insert = $conn->query($insert);
                 }
@@ -164,6 +166,10 @@
                                             <div class="col-md-6 mb-3">
                                                 <label class="small mb-1" for="inputFirstName">Fone</label>
                                                 <input class="form-control" name="phone_company" type="text" value="<?php echo $phone_company; ?>">
+                                            </div>
+                                            <div class="col-md-12 mb-3">
+                                                <label class="small mb-1" for="inputFirstName">Email</label>
+                                                <input class="form-control" name="email_company" type="text" value="<?php echo $email_company; ?>">
                                             </div>
                                             <div class="col-md-6 mb-3">
                                                 <div class='select'>

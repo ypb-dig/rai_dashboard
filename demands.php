@@ -3,9 +3,13 @@
     include 'protect.php';
     include 'inc/head.php';
 
-    $listings = "SELECT * FROM `demands`
-                JOIN regions
-                ON regions.id = demands.idregions";
+    $listings = "SELECT c.id, c.idcategories, c.iddemands,d.uid,d.name_company,d.source_company, d.phone_company, d.contact_company, r.name_region,r.name_country, cat.id, cat.name,r.name_region FROM cadastro_listing_categories c
+    JOIN categories cat
+    JOIN demands d
+    JOIN regions r
+    ON c.idcategories = cat.id AND d.id = c.iddemands AND d.idregions = r.id
+    GROUP BY c.iddemands";
+    
     $result = $conn->query($listings);
 
     if(!$result){
@@ -104,7 +108,7 @@
                                                         <td>$row[contact_company]</td>
                                                         <td>$row[phone_company]</td>
                                                         <td>
-                                                            <a class='btn btn-dark' href='actions/demands/view.php?id=$row[uid]&region=$row[name_region]'>
+                                                            <a class='btn btn-dark' href='actions/demands/view.php?id=$row[uid]&region=$row[name_region]&cat=$row[name]'>
                                                                 <i class='fas fa-eye'></i>
                                                             </a>
                                                             <a class='btn btn-info' href='actions/demands/edit.php?id=$row[uid]&region=$row[name_region]'>

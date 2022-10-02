@@ -7,6 +7,7 @@
 
         $id = $_GET["id"];
         $region = $_GET["region"];
+        $cat = $_GET["cat"];
 
         $sql = "SELECT * FROM cadastro_listing_categories c
                 JOIN categories cat JOIN regions r JOIN listings l
@@ -18,10 +19,12 @@
                         ON c.idcategories = cat.id
                         WHERE idlistings = $id";
         
-        $sql2 = "SELECT * FROM demands d
-            JOIN regions r
-            ON d.idregions = r.id 
-            WHERE r.name_region='$region' OR r.name_region='Todas as Regiões'";
+        $sql2 = "SELECT DISTINCT c.id, c.idcategories, c.iddemands, d.uid, d.name_company, d.source_company,d.contact_company, d.phone_company, cat.id, cat.name,r.name_region FROM cadastro_listing_categories c
+        JOIN categories cat
+        JOIN demands d
+        JOIN regions r
+        ON c.idcategories = cat.id AND d.id = c.iddemands AND d.idregions = r.id
+        WHERE cat.name = '$cat' AND c.iddemands IS NOT NULL;";
 
         $result = $conn->query($sql);
         $result1 = $conn->query($sql);
@@ -194,18 +197,22 @@
                                     <tbody>
                                         <?php
                                             if($result_demands->num_rows > 0){
-                                                while($row2 = $result_demands->fetch_assoc()){                                        
-                                                echo "
-                                                    <tr>
-                                                        <td><a href='$permalink/actions/demands/view.php?id=$row2[uid]&region=$row2[name_region]'>#$row2[uid]</a></td>
-                                                        <td>$row2[name_company]</td>
-                                                        <td>$row2[source_company]</td>
-                                                        <td>$row2[contact_company]</td>
-                                                        <td>$row2[phone_company]</td>
-                                                    </tr>
-                                                ";
+                                                while($row2 = $result_demands->fetch_assoc()){     
+                                                    if($row2['name'] == $cat){
+                                                        echo "
+                                                            <tr>
+                                                                <td><a href='$permalink/actions/demands/view.php?id=$row2[uid]&region=$row2[name_region]&cat=$row2[name]'>#$row2[uid]</a></td>
+                                                                <td>$row2[name_company]</td>
+                                                                <td>$row2[source_company]</td>
+                                                                <td>$row2[contact_company]</td>
+                                                                <td>$row2[phone_company]</td>
+                                                            </tr>
+                                                        ";
+                                                    }else{
+                                                        echo "$row2[name] $row1[name]";
+                                                    }                              
+                                                }
                                             }
-                                        }
                                         ?>
                                     </tbody>
                                 </table>

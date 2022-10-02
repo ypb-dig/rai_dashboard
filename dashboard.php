@@ -23,6 +23,7 @@
         {
             $idregion = $_GET['idregion'];
             $range = $_GET['range'];
+            $idcategories = $_GET['cat'];
 
             $listings = "SELECT * FROM listings l
                         JOIN regions r
@@ -33,9 +34,12 @@
         }
         else
         {
-            $listings2 = "SELECT * FROM listings l
-                    JOIN regions r 
-                    ON l.idregion = r.id";
+            $listings2 = "SELECT DISTINCT c.id, c.idcategories, c.idlistings, l.uid, l.main_img, l.name_listing,l.sign_listing, l.price_listing, cat.id, cat.name,r.name_region, r.name_country FROM cadastro_listing_categories c
+                        JOIN categories cat
+                        JOIN listings l
+                        JOIN regions r
+                        ON c.idcategories = cat.id AND l.id = c.idlistings AND l.idregion = r.id
+                        GROUP BY c.idlistings";    
             $result_products = $conn->query($listings2);
         }
 
@@ -51,10 +55,14 @@
         }
         else
         {
-            $demands2 = "SELECT * FROM demands d
-                    JOIN regions r 
-                    ON d.idregions = r.id";
-                    $result_demands = $conn->query($demands2);
+            $demands2 = "SELECT DISTINCT c.id, c.idcategories, c.iddemands, d.uid, d.name_company, d.source_company,d.contact_company, d.phone_company, cat.id, cat.name,r.name_region FROM cadastro_listing_categories c
+                        JOIN categories cat
+                        JOIN demands d
+                        JOIN regions r
+                        ON c.idcategories = cat.id AND d.id = c.iddemands AND d.idregions = r.id
+                        WHERE c.iddemands IS NOT NULL
+                        GROUP BY c.iddemands";
+            $result_demands = $conn->query($demands2);
         }
 
 
@@ -136,6 +144,7 @@
                     <form action="dashboard.php" method="GET">
                         <input type="hidden" name="rangeInput" id="rangeInput" value="5">
                         <input type="hidden" name="idregion" id="idregion" value="">
+                        <input type="hidden" name="idcategories" id="idcategories" value="">
 
                         <div class="row products justify-content-center">
                             <div class="col-md-8 offsset-md-2 text-center my-3">
@@ -232,7 +241,7 @@
                                                                     while($row = $result_categories->fetch_assoc()){
                                                                         echo "
                                                                             <div class='col-md-3 text-left'>
-                                                                            <input type='checkbox' value='".$row['id']."' name='idcategories[]' class='form-check-input'>
+                                                                            <input type='checkbox' value='".$row['id']."' name='idcategories' class='form-check-input' id='category'>
                                                                             <label class='small mb-0'>".$row['name']."</label>
                                                                             </div>
                                                                         ";
@@ -296,7 +305,7 @@
                                                             
                                                             echo "
                                                                 <tr>
-                                                                    <td><a href='$permalink/actions/products/view.php?id=$row[uid]&region=$row[name_region]'>#$row[uid]</td>
+                                                                    <td><a href='$permalink/actions/products/view.php?id=$row[uid]&region=$row[name_region]&cat=$row[name]'>#$row[uid]</td>
                                                                     <td><img src='uploads/$row[main_img]' width='100px'></td>
                                                                     <td>$row[name_listing]</td>
                                                                     <td>$row[sign_listing] $price_format</td>
@@ -347,7 +356,7 @@
                                                         while($row2 = $result_demands->fetch_assoc()){                                        
                                                             echo "
                                                                 <tr>
-                                                                    <td><a href='$permalink/actions/demands/view.php?id=$row2[uid]&region=$row2[name_region]'>#$row2[uid]</a></td>
+                                                                    <td><a href='$permalink/actions/demands/view.php?id=$row2[uid]&region=$row2[name_region]&cat=$row2[name]'>#$row2[uid]</a></td>
                                                                     <td>$row2[name_company]</td>
                                                                 </a></td>
                                                                 </tr>
@@ -440,10 +449,17 @@
     <script>
         var idregion = document.getElementById('idregion');
         var range = document.getElementById('rangeInput');
+        var idcategories = document.getElementById('idcategories');
 
         function searchData(){
-            window.location = 'dashboard.php?idregion='+idregion.value+'&range='+range.value+'000000'; 
+            window.location = 'dashboard.php?idregion='+idregion.value+'&range='+range.value+'000000'+'&cat='+idcategories.value; 
         }
+
+        $(document).ready(function(){
+            $("#category").click(function(){
+                $("#idcategories").val();
+            });
+        });
     </script>
 
     <script>

@@ -7,6 +7,7 @@
 
         $id = $_GET["id"];
         $region = $_GET["region"];
+        $cat = $_GET["cat"];
 
         $sql = "SELECT * FROM cadastro_listing_categories c
                 JOIN categories cat 
@@ -25,10 +26,12 @@
                 JOIN regions r
                 ON l.idregion = r.id";
         }else{
-            $sql2 = "SELECT * FROM listings l
-                JOIN regions r
-                ON l.idregion = r.id
-                WHERE r.name_region='$region'";
+            $sql2 = "SELECT DISTINCT c.id, c.idcategories, c.idlistings, l.uid, l.main_img, l.name_listing,l.sign_listing, l.price_listing, cat.id, cat.name,r.name_region, r.name_country FROM cadastro_listing_categories c
+            JOIN categories cat
+            JOIN listings l
+            JOIN regions r
+            ON c.idcategories = cat.id AND l.id = c.idlistings AND l.idregion = r.id
+            WHERE cat.name = '$cat' AND c.idlistings IS NOT NULL";
         }   
 
         $result = $conn->query($sql);
@@ -190,7 +193,7 @@
                                                 
                                                 echo "
                                                     <tr>
-                                                        <td><a href='$permalink/actions/products/view.php?id=$row2[uid]&region=$row2[name_region]'>#$row2[uid]</a></td>
+                                                        <td><a href='$permalink/actions/products/view.php?id=$row2[uid]&region=$row2[name_region]&cat=$row[name]'>#$row2[uid]</a></td>
                                                         <td><img src='$permalink/uploads/$row2[main_img]' width='100px'></td>
                                                         <td>$row2[name_listing]</td>
                                                         <td>$row2[sign_listing] $price_format</td>

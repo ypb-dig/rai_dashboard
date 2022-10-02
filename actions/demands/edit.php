@@ -5,6 +5,7 @@
 
     $id = "";
     $name_company = "";
+    $email_company = "";
     $source_company = "";
     $contact_company = "";
     $phone_company = "";
@@ -60,6 +61,7 @@
 
         $id = $_POST["id"];
         $name_company = $_POST["name_company"];
+        $email_company = $_POST["email_company"];
         $source_company = $_POST["source_company"];
         $contact_company = $_POST["contact_company"];
         $phone_company = $_POST["phone_company"];
@@ -68,20 +70,21 @@
         $idcategories = $_POST["idcategories"];
 
         do{
-            if( empty($name_company) || empty($source_company) || empty($contact_company) || empty($phone_company) || empty($features_company)){
-                $errorMessage = "Todos os campos são obrigatórios";
+            if( empty($name_company) || empty($contact_company) ){
+                $errorMessage = "Os campos Empresa e Contato são obrigatórios";
                 break;
             }
             
             $conn->begin_transaction();
 
-            $sql = "UPDATE demands SET name_company = '$name_company', source_company = '$source_company', contact_company = '$contact_company', phone_company = '$phone_company', features_company = '$features_company', idregions = '$idregions' WHERE id = $id"; 
+            $sql = "UPDATE demands SET name_company = '$name_company', email_company = '$email_company', source_company = '$source_company', contact_company = '$contact_company', phone_company = '$phone_company', features_company = '$features_company', idregions = '$idregions' WHERE id = $id"; 
 
             $result = $conn->query($sql);
 
 
             foreach($idcategories as $category)
             {
+                // $insert2 = "UPDATE cadastro_listing_categories c SET c.idcategories = $category WHERE c.iddemands = $id "; 
                 $insert2 = "INSERT INTO cadastro_listing_categories (id, data, idcategories, iddemands)" . "VALUES (NULL, NOW(), '$category','$id')"; 
                 $result = $conn->query($insert2);
             }
@@ -174,6 +177,10 @@
                                             <div class="col-md-6">
                                                 <label class="small mb-1" for="inputFirstName">Fone</label>
                                                 <input class="form-control" name="phone_company" type="text" value="<?php echo $row['phone_company'] ?>">
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label class="small mb-1" for="inputFirstName">Email</label>
+                                                <input class="form-control" name="email_company" type="text" value="<?php echo $row['email_company'] ?>">
                                             </div>
                                             <div class="col-md-6 mt-2">
                                                 <div class='select'>

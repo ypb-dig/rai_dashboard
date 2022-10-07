@@ -126,6 +126,12 @@
                                                     </select>
                                                 </div>
                                             </div>
+                                            <div class="col-md-12 mb-3">
+                                                <div class='select'>
+                                                    <label class="small mb-1" for="inputFirstName">Email:</label>
+                                                    <input class="form-control" disabled name="email_company" type="text" value="<?php echo $row["email_company"]; ?>">
+                                                </div>
+                                            </div>
                                             <div class="col-md-12 mt-1">
                                                 <label class="small mb-1" for="exampleFormControlTextarea1">Categorias: </label>
                                                 <?php 

@@ -83,7 +83,6 @@
                                             <th>Empresa</th>
                                             <th>Fonte de Contato</th>
                                             <th>Contato</th>
-                                            <th>Fone</th>
                                             <th>Ação</th>
                                         </tr>
                                     </thead>
@@ -93,7 +92,6 @@
                                             <th>Empresa</th>
                                             <th>Fonte de Contato</th>
                                             <th>Contato</th>
-                                            <th>Fone</th>
                                             <th>Ação</th>
                                         </tr>
                                     </tfoot>
@@ -106,7 +104,6 @@
                                                         <td>$row[name_company]</td>
                                                         <td>$row[source_company]</td>
                                                         <td>$row[contact_company]</td>
-                                                        <td>$row[phone_company]</td>
                                                         <td>
                                                             <a class='btn btn-dark' href='actions/demands/view.php?id=$row[uid]&region=$row[name_region]&cat=$row[name]'>
                                                                 <i class='fas fa-eye'></i>

@@ -3,7 +3,7 @@
     include 'protect.php';
     include 'inc/head.php';
 
-    $listings = "SELECT c.id, c.idcategories, c.iddemands,d.uid,d.name_company,d.source_company, d.phone_company, d.contact_company, r.name_region,r.name_country, cat.id, cat.name,r.name_region FROM cadastro_listing_categories c
+    $listings = "SELECT * FROM cadastro_listing_categories c
     JOIN categories cat
     JOIN demands d
     JOIN regions r
@@ -81,8 +81,8 @@
                                         <tr>
                                             <th>ID</th>
                                             <th>Empresa</th>
-                                            <th>Fonte de Contato</th>
-                                            <th>Contato</th>
+                                            <th>Fundo</th>
+                                            <th>Tipo de Investimento</th>
                                             <th>Ação</th>
                                         </tr>
                                     </thead>
@@ -90,8 +90,8 @@
                                         <tr>
                                             <th>ID</th>
                                             <th>Empresa</th>
-                                            <th>Fonte de Contato</th>
-                                            <th>Contato</th>
+                                            <th>Fundo</th>
+                                            <th>Tipo de Investimento</th>
                                             <th>Ação</th>
                                         </tr>
                                     </tfoot>
@@ -102,8 +102,8 @@
                                                     <tr>
                                                         <td>#$row[uid]</td>
                                                         <td>$row[name_company]</td>
-                                                        <td>$row[source_company]</td>
-                                                        <td>$row[contact_company]</td>
+                                                        <td>$row[fundname_company]</td>
+                                                        <td>$row[investment_company]</td>
                                                         <td>
                                                             <a class='btn btn-dark' href='actions/demands/view.php?id=$row[uid]&region=$row[name_region]&cat=$row[name]'>
                                                                 <i class='fas fa-eye'></i>

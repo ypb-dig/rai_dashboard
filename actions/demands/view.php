@@ -13,26 +13,21 @@
                 JOIN categories cat 
                 JOIN regions r 
                 JOIN demands d
-                ON c.idcategories = cat.id AND d.idregions = r.id
-                WHERE c.iddemands = $id AND r.name_region = '$region' ";
+                ON d.idregions = r.id AND c.idcategories = cat.id 
+                WHERE d.id = $id AND c.iddemands = d.id AND r.name_region = '$region' ";
         
         $categories = "SELECT DISTINCT name FROM cadastro_listing_categories c
                 JOIN categories cat
                 ON c.idcategories = cat.id
                 WHERE iddemands = $id";
 
-        if($region == "Todas as Regiões"){
-            $sql2 = "SELECT * FROM listings l
-                JOIN regions r
-                ON l.idregion = r.id";
-        }else{
-            $sql2 = "SELECT DISTINCT c.id, c.idcategories, c.idlistings, l.uid, l.main_img, l.name_listing,l.sign_listing, l.price_listing, cat.id, cat.name,r.name_region, r.name_country FROM cadastro_listing_categories c
+        
+        $sql2 = "SELECT DISTINCT c.id, c.idcategories, c.idlistings, l.uid, l.main_img, l.name_listing,l.sign_listing, l.price_listing, cat.id, cat.name,r.name_region, r.name_country FROM cadastro_listing_categories c
             JOIN categories cat
             JOIN listings l
             JOIN regions r
             ON c.idcategories = cat.id AND l.id = c.idlistings AND l.idregion = r.id
-            WHERE cat.name = '$cat' AND c.idlistings IS NOT NULL";
-        }   
+            WHERE cat.name = '$cat' AND c.idlistings IS NOT NULL";  
 
         $result = $conn->query($sql);
         $result1 = $conn->query($sql);
@@ -98,12 +93,34 @@
                                                 <input class="form-control" disabled name="name_company" type="text" value="<?php echo $row["name_company"]; ?>">
                                             </div>
                                             <div class="col-md-6 mb-3">
-                                                <label class="small mb-1" for="inputFirstName">Fonte de Contato</label>
-                                                <input class="form-control" disabled name="source_company" type="text" value="<?php echo $row["source_company"]; ?>">
+                                                <label class="small mb-1" for="inputFirstName">Nome do Fundo</label>
+                                                <input class="form-control" disabled name="fundname_company" type="text" value="<?php echo $row["fundname_company"]; ?>">
                                             </div>
                                             <div class="col-md-6 mb-3">
-                                                <label class="small mb-1" for="inputFirstName">Contato</label>
+                                                <label class="small mb-1" for="inputFirstName">Nome do Gestor</label>
                                                 <input class="form-control" disabled name="contact_company" type="text" value="<?php echo $row["contact_company"]; ?>">
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <div class='select'>
+                                                    <label class="small mb-1" for="inputFirstName">Email:</label>
+                                                    <input class="form-control" disabled name="email_company" type="text" value="<?php echo $row["email_company"]; ?>">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <div class='select'>
+                                                    <label class="small mb-1" for="inputFirstName">Tipo de Renda</label>
+                                                    <input class="form-control" disabled name="income_company" type="text" value="<?php echo $row["income_company"]; ?>">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <div class='select'>
+                                                    <label class="small mb-1" for="inputFirstName">Tipo do Investimento</label>
+                                                    <input class="form-control" disabled name="investment_company" type="text" value="<?php echo $row["investment_company"]; ?>">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label class="small mb-1" for="inputFirstName">Fonte de Contato</label>
+                                                <input class="form-control" disabled name="source_company" type="text" value="<?php echo $row["source_company"]; ?>">
                                             </div>
                                             <div class="col-md-6 mb-3">
                                                 <label class="small mb-1" for="inputFirstName">Fone</label>
@@ -126,14 +143,8 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-md-12 mb-3">
-                                                <div class='select'>
-                                                    <label class="small mb-1" for="inputFirstName">Email:</label>
-                                                    <input class="form-control" disabled name="email_company" type="text" value="<?php echo $row["email_company"]; ?>">
-                                                </div>
-                                            </div>
                                             <div class="col-md-12 mt-1">
-                                                <label class="small mb-1" for="exampleFormControlTextarea1">Categorias: </label>
+                                                <label class="small mb-1" for="exampleFormControlTextarea1">Tipo do Lastro: </label>
                                                 <?php 
                                                     if($result_category->num_rows > 0){
                                                         while($row2 = $result_category->fetch_assoc()){  
@@ -143,8 +154,12 @@
                                                 ?>
                                             </div>
                                             <div class="col-md-12 mt-3">
-                                                <label class="small mb-1" for="exampleFormControlTextarea1">Descrição</label>
+                                                <label class="small mb-1" for="exampleFormControlTextarea1">Objetivo do Fundo</label>
                                                 <textarea class="form-control" name="features_company" rows="5" value="<?php echo $features_company; ?>" disabled><?php echo $row["features_company"]; ?></textarea>
+                                            </div>
+                                            <div class="col-md-12 mt-3">
+                                                <label class="small mb-1" for="exampleFormControlTextarea1">Política de Investimento</label>
+                                                <textarea class="form-control" name="features_company" rows="5" value="<?php echo $features_company; ?>" disabled><?php echo $row["policy_company"]; ?></textarea>
                                             </div>
                                         </div>
                                     </form>

@@ -182,7 +182,6 @@
                                             <th>Empresa</th>
                                             <th>Fonte de Contato</th>
                                             <th>Contato</th>
-                                            <th>Fone</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -191,7 +190,6 @@
                                             <th>Empresa</th>
                                             <th>Fonte de Contato</th>
                                             <th>Contato</th>
-                                            <th>Fone</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
@@ -205,7 +203,6 @@
                                                                 <td>$row2[name_company]</td>
                                                                 <td>$row2[source_company]</td>
                                                                 <td>$row2[contact_company]</td>
-                                                                <td>$row2[phone_company]</td>
                                                             </tr>
                                                         ";
                                                     }else{

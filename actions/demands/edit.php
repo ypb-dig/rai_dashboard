@@ -5,11 +5,15 @@
 
     $id = "";
     $name_company = "";
+    $fundname_company = "";
     $email_company = "";
+    $income_company = "";
+    $investment_company = "";
     $source_company = "";
     $contact_company = "";
     $phone_company = "";
     $features_company = "";
+    $policy_company = "";
     $idregions = "";
     $name_country = "";
     $name_region = "";
@@ -37,8 +41,8 @@
 
         $sql = "SELECT * FROM demands d 
         JOIN regions r
-        ON r.id = d.idregions
-        WHERE r.name_region = '$region'";
+        ON d.idregions = r.id
+        WHERE d.id = $id AND r.name_region = '$region'";
 
         $demands = "SELECT * FROM cadastro_listing_categories c
         JOIN categories cat JOIN regions r JOIN demands d
@@ -61,11 +65,15 @@
 
         $id = $_POST["id"];
         $name_company = $_POST["name_company"];
+        $fundname_company = $_POST["fundname_company"];
         $email_company = $_POST["email_company"];
+        $income_company = $_POST["income_company"];
+        $investment_company = $_POST["investment_company"];
         $source_company = $_POST["source_company"];
         $contact_company = $_POST["contact_company"];
         $phone_company = $_POST["phone_company"];
         $features_company = $_POST["features_company"];
+        $policy_company = $_POST["policy_company"];
         $idregions = $_POST["idregions"];
         $idcategories = $_POST["idcategories"];
 
@@ -77,7 +85,7 @@
             
             $conn->begin_transaction();
 
-            $sql = "UPDATE demands SET name_company = '$name_company', email_company = '$email_company', source_company = '$source_company', contact_company = '$contact_company', phone_company = '$phone_company', features_company = '$features_company', idregions = '$idregions' WHERE id = $id"; 
+            $sql = "UPDATE demands SET name_company = '$name_company', fundname_company = '$fundname_company', email_company = '$email_company', income_company = '$income_company', investment_company = '$investment_company', source_company = '$source_company', contact_company = '$contact_company', phone_company = '$phone_company', features_company = '$features_company', policy_company = '$policy_company', idregions = '$idregions' WHERE id = $id"; 
 
             $result = $conn->query($sql);
 
@@ -126,7 +134,7 @@
                         <div class="row">
                             <div class="col-xl-4">            
                                 <div class="card mb-4 mb-xl-0">
-                                    <div class="card-header">Categorias</div>
+                                    <div class="card-header">Tipo de Investimento</div>
                                     <div class="card-body overflow-y">
                                         <div class="form-group form-check"> 
                                             <?php 
@@ -167,20 +175,52 @@
                                                 <input class="form-control" name="name_company" type="text" value="<?php echo $row['name_company'] ?>">
                                             </div>
                                             <div class="col-md-6 mb-3">
-                                                <label class="small mb-1" for="inputFirstName">Fonte de Contato</label>
-                                                <input class="form-control" name="source_company" type="text" value="<?php echo $row['source_company'] ?>">
+                                                <label class="small mb-1" for="inputFirstName">Nome do Fundo</label>
+                                                <input class="form-control" name="fundname_company" type="text" value="<?php echo $row['fundname_company'] ?>">
                                             </div>
-                                            <div class="col-md-6">
-                                                <label class="small mb-1" for="inputFirstName">Contato</label>
+                                            <div class="col-md-6 mb-3">
+                                                <label class="small mb-1" for="inputFirstName">Nome do Gestor</label>
                                                 <input class="form-control" name="contact_company" type="text" value="<?php echo $row['contact_company'] ?>">
                                             </div>
                                             <div class="col-md-6">
-                                                <label class="small mb-1" for="inputFirstName">Fone</label>
-                                                <input class="form-control" name="phone_company" type="text" value="<?php echo $row['phone_company'] ?>">
-                                            </div>
-                                            <div class="col-md-12">
                                                 <label class="small mb-1" for="inputFirstName">Email</label>
                                                 <input class="form-control" name="email_company" type="text" value="<?php echo $row['email_company'] ?>">
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label class="small mb-1" for="inputFirstName">Tipo de Renda</label>
+                                                <select class='form-control' name="income_company">
+                                                    <option value="<?php echo $row['income_company'] ?>">
+                                                        <?php echo $row['income_company'] ?>
+                                                    </option>  
+                                                    <option value="Rendimentos e/ou ganho de capital">
+                                                        Rendimentos e/ou ganho de capital
+                                                    </option>
+                                                    <option value="Renda por aluguel e/ou valorização dos ativos">
+                                                        Renda por aluguel e/ou valorização dos ativos
+                                                    </option>
+                                                    <option value="Valorização dos ativos">Valorização dos ativos</option>
+                                                    <option value="Renda por aluguel">Renda por aluguel</option>
+                                                </select>
+                                            </div>    
+                                            <div class="col-md-6 mb-3">
+                                                <label class="small mb-1" for="inputFirstName">Tipo de Investimento</label>
+                                                <select class='form-control' name="investment_company">
+                                                    <option value="<?php echo $row['investment_company'] ?>">
+                                                        <?php echo $row['investment_company'] ?>
+                                                    </option>  
+                                                    <option value="Ativos Financeiros">Ativos Financeiros</option>
+                                                    <option value="Imóvel">Imóvel</option>
+                                                    <option value="Cotas">Cotas</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label class="small mb-1" for="inputFirstName">Fonte de Contato</label>
+                                                <input class="form-control" name="source_company" type="text" value="<?php echo $row['source_company'] ?>">
+                                            </div>
+                                            
+                                            <div class="col-md-6">
+                                                <label class="small mb-1" for="inputFirstName">Fone</label>
+                                                <input class="form-control" name="phone_company" type="text" value="<?php echo $row['phone_company'] ?>">
                                             </div>
                                             <div class="col-md-6 mt-2">
                                                 <div class='select'>
@@ -270,13 +310,17 @@
                                                     </div>
                                             <?php } ?>
                                             </div> -->
-                                            <div class="col-md-12 mt-4">
-                                                <label class="small mb-1" for="exampleFormControlTextarea1">Descrição</label>
+                                            <div class="col-md-12 mt-5">
+                                                <label class="small mb-1" for="exampleFormControlTextarea1">Objetivo do Fundo</label>
                                                 <textarea class="form-control" name="features_company" rows="5" value="<?php echo $row['features_company'] ?>"><?php echo $row['features_company'] ?></textarea>
+                                            </div>
+                                            <div class="col-md-12 mt-4">
+                                                <label class="small mb-1" for="exampleFormControlTextarea1">Política do Investimento</label>
+                                                <textarea class="form-control" name="policy_company" rows="5" value="<?php echo $row['policy_company'] ?>"><?php echo $row['policy_company'] ?></textarea>
                                             </div>
                                         </div>
                                         
-                                        <button type="submit" class="btn btn-primary" type="button">Cadastrar Demanda</button>
+                                        <button type="submit" name="save" class="btn btn-primary" type="button">Alterar Demanda</button>
                                         
                                     </div>
                                 </div>

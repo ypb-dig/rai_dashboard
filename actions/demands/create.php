@@ -60,10 +60,6 @@
         $idcategories = $_POST["idcategories"];
 
         do{
-            if( empty($name_company) || empty($contact_company)){
-                $errorMessage = "Todos os campos são obrigatórios";
-                break;
-            }
 
             $conn->begin_transaction();
             
@@ -93,8 +89,8 @@
             }
 
             if(!$result_insert){
-                $errorMessage = "Erro ao cadastrar" . $conn->error;
-                // $errorMessage = "Erro ao cadastrar, um ou mais campos obrigatórios não foram preenchidos";
+                // $errorMessage = "Erro ao cadastrar" . $conn->error;
+                $errorMessage = "Erro ao cadastrar, um ou mais campos obrigatórios não foram preenchidos";
                 break;
             }
 

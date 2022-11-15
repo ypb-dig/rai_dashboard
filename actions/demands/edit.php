@@ -78,10 +78,6 @@
         $idcategories = $_POST["idcategories"];
 
         do{
-            if( empty($name_company) || empty($contact_company) ){
-                $errorMessage = "Os campos Empresa e Contato são obrigatórios";
-                break;
-            }
             
             $conn->begin_transaction();
 

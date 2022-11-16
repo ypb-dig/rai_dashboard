@@ -19,7 +19,7 @@
                         ON c.idcategories = cat.id
                         WHERE idlistings = $id";
         
-        $sql2 = "SELECT DISTINCT c.id, c.idcategories, c.iddemands, d.uid, d.name_company, d.source_company,d.contact_company, d.phone_company, cat.id, cat.name,r.name_region FROM cadastro_listing_categories c
+        $sql2 = "SELECT DISTINCT c.id, c.idcategories, c.iddemands, d.uid, d.name_company, d.fundname_company,d.investment_company, cat.id, cat.name,r.name_region FROM cadastro_listing_categories c
         JOIN categories cat
         JOIN demands d
         JOIN regions r

@@ -180,16 +180,16 @@
                                         <tr>
                                             <th>ID</th>
                                             <th>Empresa</th>
-                                            <th>Fonte de Contato</th>
-                                            <th>Contato</th>
+                                            <th>Nome do Fundo</th>
+                                            <th>Tipo de Investimento</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
                                             <th>ID</th>
                                             <th>Empresa</th>
-                                            <th>Fonte de Contato</th>
-                                            <th>Contato</th>
+                                            <th>Nome do Fundo</th>
+                                            <th>Tipo de Investimento</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
@@ -201,8 +201,8 @@
                                                             <tr>
                                                                 <td><a href='$permalink/actions/demands/view.php?id=$row2[uid]&region=$row2[name_region]&cat=$row2[name]'>#$row2[uid]</a></td>
                                                                 <td>$row2[name_company]</td>
-                                                                <td>$row2[source_company]</td>
-                                                                <td>$row2[contact_company]</td>
+                                                                <td>$row2[fundname_company]</td>
+                                                                <td>$row2[investment_company]</td>
                                                             </tr>
                                                         ";
                                                     }else{

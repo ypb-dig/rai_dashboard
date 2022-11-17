@@ -22,7 +22,7 @@
                 WHERE iddemands = $id";
 
         
-        $sql2 = "SELECT DISTINCT c.id, c.idcategories, c.idlistings, l.uid, l.main_img, l.name_listing,l.sign_listing, l.price_listing, cat.id, cat.name,r.name_region, r.name_country FROM cadastro_listing_categories c
+        $sql2 = "SELECT DISTINCT c.idcategories, c.idlistings, l.uid, l.main_img, l.name_listing,l.sign_listing, l.price_listing, cat.id, cat.name,r.name_region, r.name_country FROM cadastro_listing_categories c
             JOIN categories cat
             JOIN listings l
             JOIN regions r

@@ -3,8 +3,8 @@
     include '../../protect.php';
     include '../../inc/head.php';
 
-    ini_set('display_errors', 1);
-    ini_set('display_startup_erros', 1);
+    ini_set('display_errors', 0);
+    ini_set('display_startup_erros', 0);
 
     $id = "";
     $name_company = "";

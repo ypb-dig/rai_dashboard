@@ -10,16 +10,18 @@
         $cat = $_GET["cat"];
 
         $sql = "SELECT * FROM cadastro_listing_categories c
-                JOIN categories cat JOIN regions r JOIN listings l
-                ON c.idcategories = cat.id AND l.idregion = r.id
-                WHERE c.idlistings = $id AND r.name_region = '$region'";
+                JOIN categories cat 
+                JOIN regions r 
+                JOIN listings l
+                ON l.idregion = r.id AND c.idcategories = cat.id
+                WHERE l.id = $id AND c.idlistings = l.id AND r.name_region = '$region'";
 
         $categories = "SELECT DISTINCT name FROM cadastro_listing_categories c
                         JOIN categories cat
                         ON c.idcategories = cat.id
                         WHERE idlistings = $id";
         
-        $sql2 = "SELECT DISTINCT c.id, c.idcategories, c.iddemands, d.uid, d.name_company, d.fundname_company,d.investment_company, cat.id, cat.name,r.name_region FROM cadastro_listing_categories c
+        $sql2 = "SELECT DISTINCT c.idcategories, c.iddemands, d.uid, d.name_company, d.fundname_company,d.investment_company, cat.id, cat.name,r.name_region FROM cadastro_listing_categories c
         JOIN categories cat
         JOIN demands d
         JOIN regions r
@@ -232,6 +234,10 @@
 
     <?php include '../../inc/logoutModal.php'; ?>
     <?php include '../../inc/scripts.php'; ?>
+
+    <script src="../../vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="../../vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="../../js/demo/datatables-demo.js"></script>
 
 </body>
 

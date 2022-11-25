@@ -63,7 +63,7 @@
                         <div class="col-12">
                             <div class='card mb-4 py-0 border-left-danger'>
                                 <div class='card-body p-2 text-danger'>
-                                    Ops! Não foi possível deletar esse produto pois possui categorias relacionadas, desmarque as categorias desse produto para poder excluir.
+                                    Ops! Não foi possível deletar esse produto.
                                 </div>
                             </div>
                         </div>

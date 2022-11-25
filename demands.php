@@ -63,7 +63,7 @@
                         <div class="col-12">
                             <div class='card mb-4 py-0 border-left-danger'>
                                 <div class='card-body p-2 text-danger'>
-                                    Ops! Não foi possível deletar essa demanda pois possui categorias relacionadas, desmarque as categorias dessa demanda para poder excluir.
+                                    Ops! Não foi possível deletar essa demanda.
                                 </div>
                             </div>
                         </div>
@@ -111,7 +111,7 @@
                                                             <a class='btn btn-info' href='actions/demands/edit.php?id=$row[uid]&region=$row[name_region]'>
                                                                 <i class='fas fa-edit'></i>
                                                             </a>
-                                                            <a class='btn btn-danger' href='actions/demands/delete.php?id=$row[uid]'>
+                                                            <a href='actions/demands/delete.php?id=$row[uid]' class='btn btn-danger'>
                                                                 <i class='fas fa-trash'></i>
                                                             </a>
                                                         </td>
@@ -138,26 +138,6 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="deleteUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Tem certeza que deseja excluir esse usuário?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Clique em "Excluir" para remover o usuário do painel.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                    <a class='btn btn-danger' data-dismiss="modal">Excluir</a>            
-                </div>
-            </div>
-        </div>
-    </div>
 
     <?php include 'inc/logoutModal.php'; ?>
     <?php include 'inc/scripts.php'; ?>

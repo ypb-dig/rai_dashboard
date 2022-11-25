@@ -5,10 +5,16 @@
     if ( isset($_GET['id'])){
         $id = $_GET['id'];
 
-        $sql = "DELETE FROM listings WHERE id=$id";
-        $result_insert = $conn->query($sql);
+        $conn->begin_transaction();
+
+        $sql = "DELETE FROM cadastro_listing_categories
+        WHERE cadastro_listing_categories.idlistings = $id";
+
+        $result_delete = $conn->query($sql);
+
+        $conn->commit();
     }
-    if(!$result_insert){
+    if(!$result_delete){
         header("Location: ../../products.php?msg=error");
     }else{
         header("Location: ../../products.php?msg=success");
